@@ -543,21 +543,25 @@ nav a:hover::after {
 }
 
 /* Extra small screens */
-@media (max-width: 480px) {
-  .testimonials-slider {
-    min-height: 280px; /* More height for small screens */
-  }
+.testimonials-slider {
+        min-height: 250px; /* More height for mobile */
+        margin: 0 auto 2rem;
+      }
 
-  .testimonial-text {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    padding: 0 5px;
-  }
+      .testimonial {
+        padding: 1.5rem;
+        width: calc(100% - 20px); /* Account for container padding */
+        max-width: none;
+      }
 
-  .testimonial-author {
-    font-size: 0.85rem;
-  }
-}
+      .testimonial-text {
+        font-size: 1rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
 
 /* Footer */
 footer {
