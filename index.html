@@ -134,15 +134,15 @@
           <div class="testimonial-author">- Pragati, Happy Customer</div>
         </div>
         <div class="testimonial">
-          <p class="testimonial-text">"These coasters make my coffee time so much brighter! They’re unique, colorful, and feel really special"</p>
+          <p class="testimonial-text">"These coasters make my coffee time so much brighter! They're unique, colorful, and feel really special"</p>
           <div class="testimonial-author">- Madhu, Lucknow</div>
         </div>
         <div class="testimonial">
-          <p class="testimonial-text">"I love this coaster! It looks exactly like the picture—the same pattern and design I wanted. It’s so cute and just perfect. Thank you so much!"</p>
+          <p class="testimonial-text">"I love this coaster! It looks exactly like the picture—the same pattern and design I wanted. It's so cute and just perfect. Thank you so much!"</p>
           <div class="testimonial-author">- Suhani, Mathura</div>
         </div>
         <div class="testimonial">
-          <p class="testimonial-text">"I couldn't have asked for a better scrunchie that gives you gajra vibes and that too in tulips! Absolutely loved it,10/10!!"</p>
+          <p class="testimonial-text">"I couldn't have asked for a better scrunchie that gives you gajra vibes and that too in tulips! Absolutely loved it,10/10!!"</p>
           <div class="testimonial-author">- Saumya, Lucknow</div>
         </div>
         <div class="testimonial">
@@ -185,83 +185,105 @@
   </footer>
 
   <script>
+    // Hero slideshow variables
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    let currentHeroSlide = 0;
+    let heroInterval;
+
+    // Hero slideshow functions
+    function showHeroSlide(index) {
+      heroSlides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) {
+          slide.classList.add('active');
+        }
+      });
+    }
+
+    function nextHeroSlide() {
+      currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+      showHeroSlide(currentHeroSlide);
+    }
+
+    function startHeroSlideshow() {
+      heroInterval = setInterval(nextHeroSlide, 4000);
+    }
+
+    function stopHeroSlideshow() {
+      clearInterval(heroInterval);
+    }
+
+    // Testimonials variables and functions
     const testimonials = document.querySelectorAll('.testimonial');
-const dots = document.querySelectorAll('.dot');
-let currentTestimonial = 0;
-let testimonialInterval;
+    const dots = document.querySelectorAll('.dot');
+    let currentTestimonial = 0;
+    let testimonialInterval;
 
-// Display testimonial for desktop
-function showTestimonial(index) {
-  testimonials.forEach((testimonial, i) => {
-    testimonial.classList.remove('active', 'prev');
-    if (i === index) testimonial.classList.add('active');
-    if (i === index - 1) testimonial.classList.add('prev');
-  });
+    // Display testimonial for desktop
+    function showTestimonial(index) {
+      testimonials.forEach((testimonial, i) => {
+        testimonial.classList.remove('active', 'prev');
+        if (i === index) testimonial.classList.add('active');
+        if (i === index - 1) testimonial.classList.add('prev');
+      });
 
-  dots.forEach(dot => dot.classList.remove('active'));
-  if (dots[index]) dots[index].classList.add('active');
-}
+      dots.forEach(dot => dot.classList.remove('active'));
+      if (dots[index]) dots[index].classList.add('active');
+    }
 
-// Go to next testimonial (desktop only)
-function nextTestimonial() {
-  if (window.innerWidth < 768) return; // disable slideshow on mobile
-  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-  showTestimonial(currentTestimonial);
-}
+    // Go to next testimonial (desktop only)
+    function nextTestimonial() {
+      if (window.innerWidth < 768) return; // disable slideshow on mobile
+      currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+      showTestimonial(currentTestimonial);
+    }
 
-// Manual testimonial control (desktop only)
-function currentSlide(n) {
-  if (window.innerWidth < 768) return; // disable on mobile
-  currentTestimonial = n - 1;
-  showTestimonial(currentTestimonial);
-}
+    // Manual testimonial control (desktop only)
+    function currentSlide(n) {
+      if (window.innerWidth < 768) return; // disable on mobile
+      currentTestimonial = n - 1;
+      showTestimonial(currentTestimonial);
+    }
 
-// Start automatic slideshow (desktop only)
-function startSlideshow() {
-  if (window.innerWidth < 768) return;
-  stopSlideshow(); // clear any existing interval
-  testimonialInterval = setInterval(nextTestimonial, 5000);
-}
+    // Start automatic slideshow (desktop only)
+    function startTestimonialSlideshow() {
+      if (window.innerWidth < 768) return;
+      stopTestimonialSlideshow(); // clear any existing interval
+      testimonialInterval = setInterval(nextTestimonial, 5000);
+    }
 
-// Stop slideshow
-function stopSlideshow() {
-  clearInterval(testimonialInterval);
-}
+    // Stop slideshow
+    function stopTestimonialSlideshow() {
+      clearInterval(testimonialInterval);
+    }
 
-// Initialize testimonials on load
-function initTestimonials() {
-  if (window.innerWidth >= 768) {
-    testimonials.forEach(t => t.classList.remove('active', 'prev'));
-    showTestimonial(currentTestimonial);
-    startSlideshow();
-    dots.forEach(dot => dot.style.display = 'inline-block');
-  } else {
-    // Mobile: show all testimonials stacked
-    testimonials.forEach(t => t.classList.add('active'));
-    dots.forEach(dot => dot.style.display = 'none');
-  }
-}
+    // Initialize testimonials on load
+    function initTestimonials() {
+      if (window.innerWidth >= 768) {
+        testimonials.forEach(t => t.classList.remove('active', 'prev'));
+        showTestimonial(currentTestimonial);
+        startTestimonialSlideshow();
+        dots.forEach(dot => dot.style.display = 'inline-block');
+      } else {
+        // Mobile: show all testimonials stacked
+        testimonials.forEach(t => t.classList.add('active'));
+        dots.forEach(dot => dot.style.display = 'none');
+      }
+    }
 
-// Handle window resize
-window.addEventListener('resize', () => {
-  if (window.innerWidth >= 768) {
-    testimonials.forEach(t => t.classList.remove('active', 'prev'));
-    showTestimonial(currentTestimonial);
-    startSlideshow();
-    dots.forEach(dot => dot.style.display = 'inline-block');
-  } else {
-    stopSlideshow();
-    testimonials.forEach(t => t.classList.add('active'));
-    dots.forEach(dot => dot.style.display = 'none');
-  }
-});
-
-// Initialize on page load
-window.addEventListener('load', initTestimonials);
-
-
-// Run on page load
-window.addEventListener('load', initTestimonials);
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        testimonials.forEach(t => t.classList.remove('active', 'prev'));
+        showTestimonial(currentTestimonial);
+        startTestimonialSlideshow();
+        dots.forEach(dot => dot.style.display = 'inline-block');
+      } else {
+        stopTestimonialSlideshow();
+        testimonials.forEach(t => t.classList.add('active'));
+        dots.forEach(dot => dot.style.display = 'none');
+      }
+    });
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -317,26 +339,27 @@ window.addEventListener('load', initTestimonials);
       });
     });
 
+    // Cart counter function (placeholder)
+    function updateCartCounter() {
+      // Add your cart counter logic here
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        cartCount.textContent = '0'; // Update with actual cart count
+      }
+    }
+
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
       updateCartCounter();
       
-      // Initialize first slides
+      // Initialize hero slideshow
       if (heroSlides.length > 0) {
         heroSlides[0].classList.add('active');
-      }
-      if (testimonials.length > 0) {
-        testimonials[0].classList.add('active');
-      }
-      if (dots.length > 0) {
-        dots[0].classList.add('active');
+        startHeroSlideshow();
       }
       
-      // Start slideshows after a short delay
-      setTimeout(() => {
-        setInterval(nextHeroSlide, 4000);
-        setInterval(nextTestimonial, 5000);
-      }, 1000);
+      // Initialize testimonials
+      initTestimonials();
     });
 
     // Make functions global for onclick handlers
