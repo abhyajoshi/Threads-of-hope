@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Threads of Hope</title>
+  <link rel="stylesheet" href="cart.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <style>
+    .checkout-container {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .checkout-form {
+      background: white;
+      padding: 0;
+    }
+
+    .form-section {
+      background: #fff8f8;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .form-section h3 {
+      color: #b85450;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #ffe4e1;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ffe4e1;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #b85450;
+    }
+
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+
+    .required {
+      color: #ff4444;
+    }
+
+    .payment-methods {
+      display: grid;
+      gap: 15px;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border: 2px solid #ffe4e1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-option:hover {
+      border-color: #b85450;
+      background: #fff8f8;
+    }
+
+    .payment-option.selected {
+      border-color: #b85450;
+      background: #fff8f8;
+    }
+
+    .payment-option input[type="radio"] {
+      margin-right: 10px;
+      width: auto;
+    }
+
+    .payment-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .payment-details {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .payment-details.active {
+      display: block;
+    }
+
+    .upi-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .upi-app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .upi-app:hover {
+      border-color: #b85450;
+      background: #fff8f8;
+    }
+
+    .upi-app.selected {
+      border-color: #b85450;
+      background: #fff8f8;
+    }
+
+    .card-form {
+      display: grid;
+      gap: 15px;
+    }
+
+    .card-number {
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+
+    .order-review {
+      background: #fff8f8;
+      padding: 30px;
+      border-radius: 15px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .review-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ffe4e1;
+    }
+
+    .review-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .item-qty {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #ffe4e1;
+    }
+
+    .summary-row.total {
+      border-top: 2px solid #b85450;
+      border-bottom: none;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 10px;
+      padding-top: 15px;
+    }
+
+    .place-order-btn {
+      width: 100%;
+      background: #b85450;
+      color: white;
+      border: none;
+      padding: 18px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .place-order-btn:hover {
+      background: #ff6b6b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(184, 84, 80, 0.3);
+    }
+
+    .place-order-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .security-notice {
+      background: linear-gradient(135deg, #fff5f0 0%, #ffe4e1 100%);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .payment-processing {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .payment-modal {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #b85450;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .google-form-step {
+      display: none;
+    }
+
+    .confirmation-notice {
+      background: #e8f5e8;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #28a745;
+      margin: 20px 0;
+    }
+
+    .confirmation-notice h4 {
+      color: #155724;
+      margin: 0 0 10px 0;
+    }
+
+    .confirmation-notice p {
+      color: #155724;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .order-id-display {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #dee2e6;
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .order-id-display h4 {
+      color: #495057;
+      margin: 0 0 5px 0;
+      font-size: 1.1rem;
+    }
+
+    .order-id-display .order-id {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #b85450;
+      font-family: monospace;
+      background: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      display: inline-block;
+      border: 2px solid #b85450;
+    }
+
+    @media (max-width: 968px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .order-review {
+        position: relative;
+        order: -1;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .upi-options {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      }
+
+      .payment-modal {
+        width: 95%;
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="main-header">
+     <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="index.html" class="logo-link">
+          <div class="logo">Threads of Hope</div>
+        </a>
+      </div>
+      <div class="nav-section">
+       <nav>
+   <ul>
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#categories">Collection</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+      </div>
+      <div class="cart-section">
+        <a href="cart.html" class="cart-link">
+          <span class="cart-icon">🛒</span>
+          <span>Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <section class="breadcrumb">
+    <div class="container">
+      <nav class="breadcrumb-nav">
+        <a href="index.html">Home</a> / <a href="cart.html">Cart</a> / <span>Checkout</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="main-content">
+    <div class="container">
+      <h1 class="page-title">Checkout</h1>
+      
+      <div class="checkout-container">
+        <div class="checkout-form">
+          <form id="checkout-form">
+            
+            <!-- Contact Information -->
+            <div class="form-section">
+              <h3>Contact Information</h3>
+              <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required>
+              </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="form-section">
+              <h3>Shipping Address</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name <span class="required">*</span></label>
+                  <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name <span class="required">*</span></label>
+                  <input type="text" id="lastName" name="lastName" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="address">Address Line 1 <span class="required">*</span></label>
+                <input type="text" id="address" name="address" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="address2">Address Line 2 (Optional)</label>
+                <input type="text" id="address2" name="address2">
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City <span class="required">*</span></label>
+                  <input type="text" id="city" name="city" required onchange="calculateShipping()">
+                </div>
+                <div class="form-group">
+                  <label for="state">State <span class="required">*</span></label>
+                  <select id="state" name="state" required onchange="calculateShipping()">
+                    <option value="">Select State</option>
+                    <!-- States -->
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <!-- Union Territories -->
+                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                    <option value="Ladakh">Ladakh</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value="Puducherry">Puducherry</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="pincode">PIN Code <span class="required">*</span></label>
+                  <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required onchange="calculateShipping()">
+                </div>
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input type="text" id="country" name="country" value="India" readonly>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="notes">Delivery Instructions (Optional)</label>
+                <textarea id="notes" name="notes" placeholder="Any special delivery instructions..."></textarea>
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-section">
+              <h3>Payment Method</h3>
+              <div class="payment-methods">
+                
+                <!-- QR Code Payment -->
+                <div class="payment-option selected">
+                  <div class="payment-icon" style="background: #00d4aa; color: white;">QR</div>
+                  <div>
+                    <strong>Pay via UPI QR Code</strong>
+                    <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">
+                      Scan QR code with any UPI app (GPay, Paytm, PhonePe, etc.)
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Payment Verification Notice -->
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #28a745;">
+                  <p style="color: #155724; margin: 0; font-size: 0.9rem;">
+                    <strong>Payment Process:</strong><br>
+                    1. Click "Show QR Code" to generate payment QR<br>
+                    2. Scan QR with your UPI app and complete payment<br>
+                    3. Upload payment screenshot through our secure form<br>
+                    4. We'll verify payment and confirm your order within 2-3 hours
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Order Review -->
+        <div class="order-review">
+          <h3>Order Summary</h3>
+          
+          <div id="order-items">
+            <!-- Items will be populated by JavaScript -->
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span class="price" id="review-subtotal">₹0</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span class="price" id="review-shipping">--</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span class="price" id="review-total">₹0</span>
+          </div>
+          
+          <button class="place-order-btn" onclick="showQRCode()">
+            <span id="place-order-text">Show QR Code & Pay</span>
+          </button>
+          
+          <div class="security-notice">
+            🔒 Your payment is secure and encrypted
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment QR Code Modal -->
+  <div class="payment-processing" id="payment-modal">
+    <div class="payment-modal">
+      <!-- Step 1: QR Code Display -->
+      <div id="qr-step">
+        <h3>Scan QR Code to Pay</h3>
+        
+        <div class="order-id-display">
+          <h4>Your Order ID</h4>
+          <div class="order-id" id="modal-order-id">TH001</div>
+        </div>
+        
+        <div id="qr-container" style="text-align: center; margin: 20px 0;">
+          <div id="qr-code" style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <!-- QR code will be generated here -->
+          </div>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 0; font-size: 0.9rem; color: #495057;">
+            <strong>Payment Amount:</strong> <span id="modal-amount" style="font-size: 1.2rem; color: #b85450; font-weight: bold;">₹0</span>
+          </p>
+        </div>
+        
+        <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; border-left: 4px solid #0d6efd;">
+          <p style="margin: 0; font-size: 0.9rem; color: #084298;">
+            <strong>Instructions:</strong><br>
+            1. Open any UPI app (GPay, Paytm, PhonePe, etc.)<br>
+            2. Scan the QR code above<br>
+            3. Complete the payment<br>
+            4. Take a screenshot of successful payment<br>
+            5. Click "I Have Paid" below to submit screenshot
+          </p>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button onclick="proceedToScreenshotUpload()" style="flex: 1; background: #28a745; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold;">
+            I Have Paid - Upload Screenshot ✓
+          </button>
+          <button onclick="closeQRModal()" style="flex: 1; background: #6c757d; color: white; border: none; padding: 12px; border-radius: 5px;">
+            Cancel
+          </button>
+        </div>
+      </div>
+      
+      <!-- Step 2: Google Form for Screenshot Upload -->
+      <div id="google-form-step" class="google-form-step">
+        <h3>Upload Payment Screenshot</h3>
+        
+        <div class="order-id-display">
+          <h4>Order ID</h4>
+          <div class="order-id" id="form-order-id">TH001</div>
+        </div>
+        
+        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
+          <p style="margin: 0; font-size: 0.9rem; color: #155724;">
+            <strong>✓ Google Form Opened Successfully!</strong><br>
+            A new tab/window has opened with the payment screenshot upload form. Please complete the form and upload your payment screenshot there.
+          </p>
+        </div>
+        
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+          <p style="margin: 0; font-size: 0.9rem; color: #856404;">
+            <strong>What to upload:</strong><br>
+            • Clear screenshot of payment confirmation from your UPI app<br>
+            • Make sure Order ID <strong id="form-order-id-2">TH001</strong> is visible or mentioned<br>
+            • Ensure amount and payment status are clearly visible
+          </p>
+        </div>
+        
+        <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0c5460;">
+          <p style="margin: 0; font-size: 0.9rem; color: #0c5460;">
+            <strong>Can't see the form?</strong><br>
+            If the form didn't open automatically, <a href="#" id="manual-form-link" target="_blank" style="color: #0c5460; text-decoration: underline;">click here to open it manually</a>.
+          </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+          <button onclick="showFinalConfirmation()" style="background: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">
+            ✓ I've Submitted the Screenshot
+          </button>
+          <br><br>
+          <button onclick="document.getElementById('qr-step').style.display='block'; document.getElementById('google-form-step').style.display='none';" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 0.9rem;">
+            ← Go Back to QR Code
+          </button>
+        </div>
+      </div>
+      
+      <!-- Step 3: Final Confirmation -->
+      <div id="confirmation-step" style="display: none;">
+        <div style="text-align: center;">
+          <div style="font-size: 60px; color: #28a745; margin-bottom: 15px;">✓</div>
+          <h3 style="color: #28a745;">Order Submitted Successfully!</h3>
+          
+          <div class="order-id-display">
+            <h4>Your Order ID</h4>
+            <div class="order-id" id="final-order-id">TH001</div>
+          </div>
+          
+          <div class="confirmation-notice">
+            <h4>What happens next?</h4>
+            <p>
+              • Our team will verify your payment within 2-3 hours<br>
+              • You'll receive an order confirmation email once verified<br>
+              • Your order will be processed and shipped within 1-2 business days<br>
+              • You can save your Order ID for tracking purposes
+            </p>
+          </div>
+          
+          <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0c5460;">
+            <p style="margin: 0; font-size: 0.9rem; color: #0c5460;">
+              <strong>Need Help?</strong> Contact us at <strong>threadsofhopebytj@gmail.com</strong> with your Order ID if you have any questions.
+            </p>
+          </div>
+          
+          <button onclick="closeAndRedirect()" style="background: #b85450; color: white; border: none; padding: 15px 30px; border-radius: 5px; font-weight: bold; margin-top: 15px;">
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>📧 threadsofhopebytj@gmail.com</p>
+        </div>
+        <div class="footer-section">
+          <h3>Follow Us</h3>
+          <a href="https://www.instagram.com/threadsofhopebytj/">Instagram</a>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Care</h3>
+          <a href="shippinginfo.html">Shipping Info</a>
+          <a href="returns.html">Returns & Refunds</a>
+          <a href="customorders.html">Custom Orders</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Threads of Hope. All rights reserved. Crafted with lots of love</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Configuration
+    const CONFIG = {
+      // Replace this with your actual Google Form URL
+      GOOGLE_FORM_BASE_URL: "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform",
+      
+      // UPI Configuration
+      UPI: {
+        merchantName: "Threads of Hope",
+        merchantUPI: "tarajoshirinki@oksbi", // Replace with your actual UPI ID
+        merchantCode: "MERCHANT"
+      }
+    };
+
+    // Shipping configuration - Updated with all states and UTs
+    const SHIPPING_CONFIG = {
+      productWeights: {
+        'scrunchie': 0.05,
+        'keychain': 0.03,
+        'coaster': 0.1,
+        'tote bag': 0.25,
+        'default': 0.1
+      },
+      zones: {
+        'Local': {
+          states: ['Uttarakhand', 'Delhi', 'Haryana', 'Punjab', 'Uttar Pradesh', 'Chandigarh'],
+          baseRate: 30,
+          perKgRate: 15
+        },
+        'Metro': {
+          states: ['Maharashtra', 'Gujarat', 'Karnataka', 'Tamil Nadu', 'West Bengal', 'Telangana', 'Rajasthan', 'Puducherry'],
+          baseRate: 50,
+          perKgRate: 25
+        },
+        'Regional': {
+          states: ['Madhya Pradesh', 'Chhattisgarh', 'Odisha', 'Jharkhand', 'Bihar', 'Andhra Pradesh', 'Kerala', 'Goa', 'Dadra and Nagar Haveli and Daman and Diu'],
+          baseRate: 70,
+          perKgRate: 35
+        },
+        'Remote': {
+          states: ['Arunachal Pradesh', 'Assam', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Sikkim', 'Tripura', 'Himachal Pradesh', 'Jammu and Kashmir', 'Ladakh', 'Andaman and Nicobar Islands', 'Lakshadweep'],
+          baseRate: 100,
+          perKgRate: 50
+        }
+      },
+      specialPinCodes: {
+        '400': 'Metro', '401': 'Metro', '421': 'Metro', '410': 'Metro',
+        '110': 'Local', '121': 'Local', '122': 'Local', '201': 'Local',
+        '560': 'Metro', '562': 'Metro',
+        '600': 'Metro', '601': 'Metro', '602': 'Metro', '603': 'Metro',
+        '700': 'Metro', '701': 'Metro', '743': 'Metro',
+        '500': 'Metro', '501': 'Metro', '502': 'Metro',
+        '411': 'Metro', '412': 'Metro', '413': 'Metro',
+        '380': 'Metro', '382': 'Metro', '383': 'Metro'
+      }
+    };
+
+    let currentOrder = null;
+
+    // Sticky header functionality
+    function initStickyHeader() {
+      const header = document.getElementById('main-header');
+      
+      window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        
+        if (scrolled > 50) {
+          header.classList.add('header-scrolled');
+        } else {
+          header.classList.remove('header-scrolled');
+        }
+      });
+    }
+
+    // Generate unique order ID (handles concurrent orders)
+    function generateOrderID() {
+      // Using timestamp + random number to ensure uniqueness
+      const timestamp = Date.now();
+      const randomNum = Math.floor(Math.random() * 1000);
+      
+      // Format: TH + last 6 digits of timestamp + 3-digit random number
+      const orderId = `TH${timestamp.toString().slice(-6)}${randomNum.toString().padStart(3, '0')}`;
+      
+      // Double-check uniqueness against existing orders
+      const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
+      const existingOrder = completedOrders.find(order => order.id === orderId);
+      
+      if (existingOrder) {
+        // Extremely unlikely, but if collision occurs, try again with different random
+        return generateOrderID();
+      }
+      
+      return orderId;
+    }
+
+    // Generate UPI URL for QR code
+    function generateUPIURL(amount, orderID) {
+      const upiURL = `upi://pay?pa=${CONFIG.UPI.merchantUPI}&pn=${encodeURIComponent(CONFIG.UPI.merchantName)}&mc=${CONFIG.UPI.merchantCode}&tid=${orderID}&tr=${orderID}&tn=${encodeURIComponent('Order ' + orderID + ' - Threads of Hope')}&am=${amount}&cu=INR`;
+      return upiURL;
+    }
+
+    // Generate QR code using QR Server API (Google Charts is deprecated)
+    function generateQRCode(upiURL) {
+      const qrSize = 250;
+      const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(upiURL)}`;
+      
+      console.log('UPI URL:', upiURL); // Debug log
+      console.log('QR URL:', qrURL); // Debug log
+      
+      return `
+        <img src="${qrURL}" alt="UPI QR Code" style="max-width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;" 
+             onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;border:2px solid #ddd;border-radius:8px;><p style=color:red;margin:0 0 10px 0;><strong>QR Code failed to load</strong></p><p style=margin:5px 0;><strong>UPI ID:</strong> ${CONFIG.UPI.merchantUPI}</p><p style=margin:5px 0;><strong>Amount:</strong> ₹' + document.getElementById('modal-amount').textContent.replace('₹', '') + '</p><p style=font-size:0.9rem;color:#666;margin:10px 0 0 0;>Please pay manually using the above details</p></div>'" />
+      `;
+    }
+
+    // Generate Google Form URL with pre-filled data including order items
+    function generateGoogleFormURL(orderData) {
+      // Format order items into a readable string
+      const orderItemsText = orderData.items.map(item => {
+        return `${item.name} - Qty: ${item.quantity} - Price: ₹${item.price} each (Total: ₹${item.price * item.quantity})`;
+      }).join('\n');
+      
+      // Calculate order summary
+      const orderSummary = `
+ORDER DETAILS:
+${orderItemsText}
+
+PRICING BREAKDOWN:
+Subtotal: ₹${orderData.totals.subtotal}
+Shipping: ₹${orderData.totals.shipping}
+Total Amount: ₹${orderData.totals.total}
+
+SHIPPING ADDRESS:
+${orderData.customer.firstName} ${orderData.customer.lastName}
+${orderData.address.line1}${orderData.address.line2 ? ', ' + orderData.address.line2 : ''}
+${orderData.address.city}, ${orderData.address.state} - ${orderData.address.pincode}
+${orderData.address.country}
+${orderData.address.notes ? 'Delivery Notes: ' + orderData.address.notes : ''}
+
+ORDER DATE: ${new Date(orderData.date).toLocaleString()}
+      `.trim();
+
+      const formFields = {
+        'entry.2032662968': orderData.id, // Order ID field
+        'entry.250601072': orderData.customer.firstName + ' ' + orderData.customer.lastName, // Customer Name field
+        'entry.1277719899': orderData.customer.email, // Email field
+        'entry.83246050': orderData.customer.phone, // Phone field
+        'entry.575451564': orderData.totals.total, // Amount Paid field
+        'entry.3772964': new Date().toLocaleString(), // Payment Date field
+        'entry.1104337762': orderSummary // Order Details field - REPLACE THIS ENTRY ID WITH YOUR ACTUAL GOOGLE FORM FIELD ID
+      };
+
+      const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdZm3LSlCanchK7PcIFF2hg8PZhap1ibUSuU4bgzoiN0TDd9Q/viewform?usp=header";
+
+      const params = Object.entries(formFields)
+        .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+        .join('&');
+
+      return `${baseURL}&${params}`;
+    }
+
+    // Show QR Code for payment
+    function showQRCode() {
+      if (!validateForm()) {
+        return;
+      }
+      
+      const form = document.getElementById('checkout-form');
+      const formData = new FormData(form);
+      const totals = calculateCheckoutTotals();
+      
+      // Generate sequential order ID
+      const orderId = generateOrderID();
+      
+      // Create order object
+      currentOrder = {
+        id: orderId,
+        items: checkoutCart,
+        customer: {
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+        },
+        address: {
+          line1: formData.get('address'),
+          line2: formData.get('address2'),
+          city: formData.get('city'),
+          state: formData.get('state'),
+          pincode: formData.get('pincode'),
+          country: 'India',
+          notes: formData.get('notes')
+        },
+        payment: {
+          method: 'upi_qr',
+          status: 'pending_payment'
+        },
+        totals: {
+          subtotal: totals.subtotal,
+          shipping: totals.shippingCost,
+          total: totals.total
+        },
+        date: new Date().toISOString()
+      };
+      
+      // Generate UPI URL and QR code
+      const upiURL = generateUPIURL(totals.total, orderId);
+      const qrCodeHTML = generateQRCode(upiURL);
+      
+      // Show modal with QR code
+      const modal = document.getElementById('payment-modal');
+      document.getElementById('qr-code').innerHTML = qrCodeHTML;
+      document.getElementById('modal-order-id').textContent = orderId;
+      document.getElementById('modal-amount').textContent = `₹${totals.total}`;
+      
+      // Show QR step
+      document.getElementById('qr-step').style.display = 'block';
+      document.getElementById('google-form-step').style.display = 'none';
+      document.getElementById('confirmation-step').style.display = 'none';
+      
+      modal.style.display = 'flex';
+    }
+
+    // Proceed to screenshot upload
+    function proceedToScreenshotUpload() {
+      if (!currentOrder) return;
+      
+      // Update order status
+      currentOrder.payment.status = 'payment_claimed';
+      currentOrder.payment.customerClaimedAt = new Date().toISOString();
+      
+      // Generate pre-filled Google Form URL
+      const formURL = generateGoogleFormURL(currentOrder);
+      
+      // Open Google Form in new tab
+      window.open(formURL, '_blank');
+      
+      // Update modal to show confirmation step
+      document.getElementById('qr-step').style.display = 'none';
+      document.getElementById('google-form-step').style.display = 'block';
+      document.getElementById('form-order-id').textContent = currentOrder.id;
+      document.getElementById('form-order-id-2').textContent = currentOrder.id;
+      
+      // Set up manual form link
+      document.getElementById('manual-form-link').href = formURL;
+    }
+
+    // Show final confirmation
+    function showFinalConfirmation() {
+      if (!currentOrder) return;
+      
+      // Update order status
+      currentOrder.payment.status = 'screenshot_submitted';
+      currentOrder.payment.screenshotSubmittedAt = new Date().toISOString();
+      
+      // Save order to localStorage for business tracking
+      let completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
+      completedOrders.push(currentOrder);
+      localStorage.setItem('completedOrders', JSON.stringify(completedOrders));
+      
+      // Save current order for customer reference
+      localStorage.setItem('lastOrder', JSON.stringify(currentOrder));
+      
+      // Clear cart
+      localStorage.removeItem('cart');
+      localStorage.removeItem('checkoutCart');
+      
+      // Show final confirmation
+      document.getElementById('google-form-step').style.display = 'none';
+      document.getElementById('confirmation-step').style.display = 'block';
+      document.getElementById('final-order-id').textContent = currentOrder.id;
+      
+      // Send notification to business
+      notifyBusinessOfNewOrder(currentOrder);
+    }
+
+    // Close QR modal
+    function closeQRModal() {
+      document.getElementById('payment-modal').style.display = 'none';
+      document.getElementById('qr-step').style.display = 'block';
+      document.getElementById('google-form-step').style.display = 'none';
+      document.getElementById('confirmation-step').style.display = 'none';
+      currentOrder = null;
+    }
+
+    // Close and redirect to homepage
+    function closeAndRedirect() {
+      closeQRModal();
+      window.location.href = 'index.html';
+    }
+
+    // Notify business of new order
+    function notifyBusinessOfNewOrder(order) {
+      // You can implement various notification methods here:
+      console.log('New order received:', order);
+    }
+
+    // Shipping calculation functions
+    function getShippingZone(state, pincode) {
+      if (!state) return null;
+      if (pincode && pincode.length >= 3) {
+        const pinPrefix = pincode.substring(0, 3);
+        if (SHIPPING_CONFIG.specialPinCodes[pinPrefix]) {
+          return SHIPPING_CONFIG.specialPinCodes[pinPrefix];
+        }
+      }
+      for (const [zoneName, zoneConfig] of Object.entries(SHIPPING_CONFIG.zones)) {
+        if (zoneConfig.states.includes(state)) {
+          return zoneName;
+        }
+      }
+      return 'Remote';
+    }
+
+    function calculatePackageWeight() {
+      let totalWeight = 0;
+      checkoutCart.forEach(item => {
+        let productCategory = 'default';
+        const itemName = item.name.toLowerCase();
+        for (const [category, weight] of Object.entries(SHIPPING_CONFIG.productWeights)) {
+          if (category !== 'default' && itemName.includes(category)) {
+            productCategory = category;
+            break;
+          }
+        }
+        const itemWeight = SHIPPING_CONFIG.productWeights[productCategory];
+        totalWeight += itemWeight * item.quantity;
+      });
+      const packagingWeight = Math.max(totalWeight * 0.1, 0.1);
+      return Math.ceil((totalWeight + packagingWeight) * 100) / 100;
+    }
+
+    function calculateShippingCost(zone, weight, subtotal) {
+      if (subtotal >= 500) {
+        return { cost: 0, details: `Free shipping for orders above ₹500`, zone: zone };
+      }
+      if (!zone || !SHIPPING_CONFIG.zones[zone]) {
+        return { cost: 0, details: 'Enter delivery address to calculate shipping' };
+      }
+      const zoneConfig = SHIPPING_CONFIG.zones[zone];
+      const baseCost = zoneConfig.baseRate;
+      const weightCost = Math.max(0, (weight - 0.5)) * zoneConfig.perKgRate;
+      const totalCost = baseCost + weightCost;
+      return {
+        cost: Math.ceil(totalCost),
+        details: `${zone} Zone: ₹${baseCost} base + ₹${Math.ceil(weightCost)} weight charges`,
+        zone: zone
+      };
+    }
+
+    function calculateCheckoutTotals() {
+      const subtotal = checkoutCart.reduce((total, item) => total + (item.price * item.quantity), 0);
+      const packageWeight = calculatePackageWeight();
+      const state = document.getElementById('state').value;
+      const pincode = document.getElementById('pincode').value;
+      const zone = getShippingZone(state, pincode);
+      
+      let shippingInfo = { cost: 0, details: 'Enter delivery address to calculate shipping' };
+      if (zone) {
+        shippingInfo = calculateShippingCost(zone, packageWeight, subtotal);
+      }
+      
+      const total = subtotal + shippingInfo.cost;
+      return { subtotal, shippingCost: shippingInfo.cost, total, packageWeight, shippingInfo };
+    }
+
+    function updateOrderReview() {
+      const { subtotal, shippingCost, total } = calculateCheckoutTotals();
+      
+      // Populate items
+      document.getElementById('order-items').innerHTML = checkoutCart.map(item => `
+        <div class="review-item">
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-qty">Qty: ${item.quantity} × ₹${item.price}</div>
+          </div>
+          <span>₹${item.price * item.quantity}</span>
+        </div>
+      `).join('');
+      
+      // Update subtotal
+      document.getElementById('review-subtotal').textContent = `₹${subtotal}`;
+      
+      // Update shipping display
+      const state = document.getElementById('state').value;
+      const pincode = document.getElementById('pincode').value;
+      
+      if (!state || !pincode) {
+        document.getElementById('review-shipping').textContent = '--';
+        document.getElementById('review-total').textContent = `₹${subtotal}`;
+      } else {
+        if (subtotal >= 500) {
+          document.getElementById('review-shipping').textContent = 'FREE';
+        } else {
+          document.getElementById('review-shipping').textContent = shippingCost === 0 ? '--' : `₹${shippingCost}`;
+        }
+        document.getElementById('review-total').textContent = `₹${total}`;
+      }
+    }
+
+    function calculateShipping() {
+      updateOrderReview();
+    }
+
+    // Form validation
+    function validateForm() {
+      const form = document.getElementById('checkout-form');
+      const formData = new FormData(form);
+      
+      const requiredFields = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'pincode'];
+      
+      for (let field of requiredFields) {
+        if (!formData.get(field)) {
+          alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+          document.getElementById(field).focus();
+          return false;
+        }
+      }
+      
+      const email = formData.get('email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        document.getElementById('email').focus();
+        return false;
+      }
+      
+      const phone = formData.get('phone');
+      if (phone.length < 10) {
+        alert('Please enter a valid phone number');
+        document.getElementById('phone').focus();
+        return false;
+      }
+      
+      const pincode = formData.get('pincode');
+      const pincodeRegex = /^[0-9]{6}$/;
+      if (!pincodeRegex.test(pincode)) {
+        alert('Please enter a valid 6-digit PIN code');
+        document.getElementById('pincode').focus();
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Get cart data
+    let checkoutCart = JSON.parse(localStorage.getItem('checkoutCart') || '[]');
+    if (checkoutCart.length === 0) {
+      const regularCart = JSON.parse(localStorage.getItem('cart') || '[]');
+      if (regularCart.length > 0) {
+        checkoutCart = regularCart;
+      } else {
+        alert('No items in cart. Redirecting to homepage.');
+        window.location.href = 'index.html';
+        throw new Error('No items in cart');
+      }
+    }
+
+    // Update cart counter in navigation
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        cartCount.textContent = totalItems;
+      }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      initStickyHeader(); // Initialize sticky header
+      console.log('Page loaded, cart items:', checkoutCart);
+      
+      if (checkoutCart.length === 0) {
+        console.error('No items found in checkout cart');
+        document.getElementById('order-items').innerHTML = '<p style="color: red; text-align: center; padding: 20px;">No items found. Please <a href="cart.html">go back to cart</a>.</p>';
+        return;
+      }
+      
+      setTimeout(function() {
+        updateOrderReview();
+        updateCartCounter();
+        console.log('Order review updated');
+      }, 100);
+    });
+
+  </script>
+</body>
+</html>

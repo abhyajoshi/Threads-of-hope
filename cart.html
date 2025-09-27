@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart | Threads of Hope</title>
+  <link rel="stylesheet" href="cart.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header id="main-header">
+    <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="index.html" class="logo-link">
+          <div class="logo">Threads of Hope</div>
+        </a>
+      </div>
+      <div class="nav-section">
+        <nav>
+  <ul>
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#categories">Collection</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+      </div>
+      <div class="cart-section">
+        <a href="cart.html" class="cart-link">
+          <span class="cart-icon">🛒</span>
+          <span>Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <section class="breadcrumb">
+    <div class="container">
+      <nav class="breadcrumb-nav">
+        <a href="index.html">Home</a> / <span>Shopping Cart</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="main-content">
+    <div class="container">
+      <h1 class="page-title">Shopping Cart</h1>
+      
+      <div class="cart-container">
+        <div class="cart-items">
+          <div id="empty-cart" class="empty-cart" style="display: none;">
+            <h3>Your cart is empty</h3>
+            <p>Looks like you haven't added any items to your cart yet.</p>
+            <a href="index.html#categories" class="continue-shopping">Continue Shopping</a>
+          </div>
+          
+          <div id="cart-items-list">
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          
+          <div id="shipping-notice" class="shipping-notice">
+            <p>Add <span class="amount-left" id="amount-left">₹0</span> more for free shipping!</p>
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span class="price" id="subtotal">₹0</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span class="price" id="shipping-cost">Calculated at checkout</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span class="price" id="total">₹0</span>
+          </div>
+          
+          <button class="checkout-btn" id="checkout-btn" onclick="proceedToCheckout()">
+            Proceed to Checkout
+          </button>
+          
+          <div style="text-align: center; margin-top: 15px;">
+            <a href="index.html#categories" class="continue-shopping">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>📧 threadsofhopebytj@gmail.com</p>
+        </div>
+        <div class="footer-section">
+          <h3>Follow Us</h3>
+          <a href="https://www.instagram.com/threadsofhopebytj/">Instagram</a>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Care</h3>
+          <a href="shippinginfo.html">Shipping Info</a>
+          <a href="returns.html">Returns & Refunds</a>
+          <a href="customorders.html">Custom Orders</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Threads of Hope. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Shopping Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Sample products data 
+    const products = {
+    };
+
+    // Sticky header functionality
+    function initStickyHeader() {
+      const header = document.getElementById('main-header');
+      
+      window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        
+        if (scrolled > 50) {
+          header.classList.add('header-scrolled');
+        } else {
+          header.classList.remove('header-scrolled');
+        }
+      });
+    }
+
+    // Update cart counter in navigation with animation
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        // Add animation when counter changes
+        cartCount.style.animation = 'bounce 0.5s ease';
+        cartCount.textContent = totalItems;
+        
+        // Remove animation after it completes
+        setTimeout(() => {
+          cartCount.style.animation = '';
+        }, 500);
+      }
+    }
+
+    // Remove item from cart with counter update
+    function removeFromCart(productId) {
+      const itemToRemove = cart.find(item => item.id === productId);
+      if (itemToRemove) {
+        // Show confirmation for removing items
+        if (confirm(`Remove "${itemToRemove.name}" from your cart?`)) {
+          cart = cart.filter(item => item.id !== productId);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartDisplay();
+          updateCartCounter(); // Update counter when item is removed
+          
+          // Show success message with theme colors
+          showNotification(`"${itemToRemove.name}" removed from cart`, 'success');
+        }
+      }
+    }
+
+    // Update quantity with counter update
+    function updateQuantity(productId, newQuantity) {
+      if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+      }
+      
+      const item = cart.find(item => item.id === productId);
+      if (item) {
+        const oldQuantity = item.quantity;
+        item.quantity = newQuantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
+        updateCartCounter(); // Update counter when quantity changes
+        
+        // Show notification for quantity change
+        const change = newQuantity - oldQuantity;
+        if (change > 0) {
+          showNotification(`Increased ${item.name} quantity by ${change}`, 'info');
+        } else {
+          showNotification(`Decreased ${item.name} quantity by ${Math.abs(change)}`, 'info');
+        }
+      }
+    }
+
+    // Show notification function with theme colors
+    function showNotification(message, type = 'info') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 140px;
+        right: 20px;
+        background: ${type === 'success' ? '#ff6b6b' : type === 'info' ? '#b85450' : '#ff6b6b'};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(184, 84, 80, 0.3);
+        z-index: 10000;
+        transform: translateX(300px);
+        transition: transform 0.3s ease;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: 'Georgia', serif;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Animate in
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.transform = 'translateX(300px)';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    // Calculate totals
+    function calculateTotals() {
+      const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+      const freeShippingThreshold = 500;
+      const shippingCost = subtotal >= freeShippingThreshold ? 0 : null; // null means calculated at checkout
+      const total = subtotal + (shippingCost || 0);
+      
+      return { subtotal, shippingCost, total, freeShippingThreshold };
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      const cartItemsList = document.getElementById('cart-items-list');
+      const emptyCart = document.getElementById('empty-cart');
+      const { subtotal, shippingCost, total, freeShippingThreshold } = calculateTotals();
+      
+      if (cart.length === 0) {
+        emptyCart.style.display = 'block';
+        cartItemsList.innerHTML = '';
+        document.getElementById('checkout-btn').disabled = true;
+      } else {
+        emptyCart.style.display = 'none';
+        document.getElementById('checkout-btn').disabled = false;
+        
+        cartItemsList.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div class="item-image">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="item-details">
+              <h3>${item.name}</h3>
+              <p>Price: ₹${item.price}</p>
+            </div>
+            <div class="item-price">₹${item.price}</div>
+            <div class="quantity-controls">
+              <button class="qty-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+              <span class="qty-display">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+            </div>
+            <button class="remove-item" onclick="removeFromCart('${item.id}')" title="Remove item">
+              ×
+            </button>
+          </div>
+        `).join('');
+      }
+      
+      // Update summary
+      document.getElementById('subtotal').textContent = `₹${subtotal}`;
+      document.getElementById('shipping-cost').textContent = shippingCost === 0 ? 'FREE' : 'Calculated at checkout';
+      document.getElementById('total').textContent = shippingCost === 0 ? `₹${total}` : `₹${subtotal}*`;
+      
+      // Update shipping notice
+      const shippingNotice = document.getElementById('shipping-notice');
+      
+      if (subtotal >= freeShippingThreshold) {
+        shippingNotice.innerHTML = '<p style="color: #ff6b6b; font-weight: bold;">🎉 You qualify for free shipping!</p>';
+      } else {
+        const amountNeeded = freeShippingThreshold - subtotal;
+        shippingNotice.innerHTML = `<p>Add <span class="amount-left">₹${amountNeeded}</span> more for free shipping!</p><p style="font-size: 0.9em; color: #666; margin-top: 5px;">*Shipping charges will be calculated based on your location at checkout</p>`;
+      }
+    }
+
+    // Proceed to checkout
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        showNotification('Your cart is empty!', 'info');
+        return;
+      }
+      
+      // Save cart data and redirect to checkout
+      localStorage.setItem('checkoutCart', JSON.stringify(cart));
+      showNotification('Redirecting to checkout...', 'success');
+      
+      // Add a small delay for the notification to show
+      setTimeout(() => {
+        window.location.href = 'checkout.html';
+      }, 1000);
+    }
+
+    // Add to cart function (for product detail pages)
+    function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImage,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCounter();
+      
+      showNotification(`Added ${quantity} ${productName} to cart!`, 'success');
+      
+      // Ask if they want to view cart after a short delay
+      setTimeout(() => {
+        if (confirm(`Added ${quantity} item(s) to cart!\n\nWould you like to view your cart?`)) {
+          window.location.href = 'cart.html';
+        }
+      }, 1000);
+    }
+
+    // Initialize cart display when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initStickyHeader(); // Initialize sticky header
+      updateCartDisplay();
+      updateCartCounter();
+    });
+
+    // Add bounce animation style
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes bounce {
+        0%, 20%, 60%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        80% { transform: translateY(-5px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Make addToCart available globally for product pages
+    window.addToCart = addToCart;
+  </script>
+</body>
+</html>
