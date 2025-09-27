@@ -185,93 +185,83 @@
   </footer>
 
   <script>
-    let currentTestimonial = 0;
-    let currentHeroSlide = 0;
     const testimonials = document.querySelectorAll('.testimonial');
-    const heroSlides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.dot');
+const dots = document.querySelectorAll('.dot');
+let currentTestimonial = 0;
+let testimonialInterval;
 
-    // Update cart counter in navigation
-function updateCartCounter() {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-  const cartCount = document.getElementById('cart-count');
-  if (cartCount) {
-    cartCount.textContent = totalItems;
-  }
+// Display testimonial for desktop
+function showTestimonial(index) {
+  testimonials.forEach((testimonial, i) => {
+    testimonial.classList.remove('active', 'prev');
+    if (i === index) testimonial.classList.add('active');
+    if (i === index - 1) testimonial.classList.add('prev');
+  });
+
+  dots.forEach(dot => dot.classList.remove('active'));
+  if (dots[index]) dots[index].classList.add('active');
 }
 
-// Add to cart function (for product detail pages)
-function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
-  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  
-  const existingItem = cart.find(item => item.id === productId);
-  
-  if (existingItem) {
-    existingItem.quantity += quantity;
+// Go to next testimonial (desktop only)
+function nextTestimonial() {
+  if (window.innerWidth < 768) return; // disable slideshow on mobile
+  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+  showTestimonial(currentTestimonial);
+}
+
+// Manual testimonial control (desktop only)
+function currentSlide(n) {
+  if (window.innerWidth < 768) return; // disable on mobile
+  currentTestimonial = n - 1;
+  showTestimonial(currentTestimonial);
+}
+
+// Start automatic slideshow (desktop only)
+function startSlideshow() {
+  if (window.innerWidth < 768) return;
+  stopSlideshow(); // clear any existing interval
+  testimonialInterval = setInterval(nextTestimonial, 5000);
+}
+
+// Stop slideshow
+function stopSlideshow() {
+  clearInterval(testimonialInterval);
+}
+
+// Initialize testimonials on load
+function initTestimonials() {
+  if (window.innerWidth >= 768) {
+    testimonials.forEach(t => t.classList.remove('active', 'prev'));
+    showTestimonial(currentTestimonial);
+    startSlideshow();
+    dots.forEach(dot => dot.style.display = 'inline-block');
   } else {
-    cart.push({
-      id: productId,
-      name: productName,
-      price: productPrice,
-      image: productImage,
-      quantity: quantity
-    });
-  }
-  
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCounter();
-  
-  if (confirm(`Added ${quantity} item(s) to cart!\n\nWould you like to view your cart?`)) {
-    window.location.href = 'cart.html';
+    // Mobile: show all testimonials stacked
+    testimonials.forEach(t => t.classList.add('active'));
+    dots.forEach(dot => dot.style.display = 'none');
   }
 }
 
-// Initialize cart counter when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  updateCartCounter();
+// Handle window resize
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 768) {
+    testimonials.forEach(t => t.classList.remove('active', 'prev'));
+    showTestimonial(currentTestimonial);
+    startSlideshow();
+    dots.forEach(dot => dot.style.display = 'inline-block');
+  } else {
+    stopSlideshow();
+    testimonials.forEach(t => t.classList.add('active'));
+    dots.forEach(dot => dot.style.display = 'none');
+  }
 });
 
-    // Hero slideshow
-    function nextHeroSlide() {
-      if (heroSlides.length > 0) {
-        heroSlides[currentHeroSlide].classList.remove('active');
-        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
-        heroSlides[currentHeroSlide].classList.add('active');
-      }
-    }
+// Initialize on page load
+window.addEventListener('load', initTestimonials);
 
-    // Testimonials slideshow
-    function nextTestimonial() {
-      if (testimonials.length > 0) {
-        testimonials[currentTestimonial].classList.remove('active');
-        testimonials[currentTestimonial].classList.add('prev');
-        dots[currentTestimonial].classList.remove('active');
-        
-        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-        
-        testimonials[currentTestimonial].classList.remove('prev');
-        testimonials[currentTestimonial].classList.add('active');
-        dots[currentTestimonial].classList.add('active');
-      }
-    }
 
-    // Manual testimonial control
-function currentSlide(n) {
-  if (testimonials.length > 0) {
-    // Remove active and prev classes from current testimonial
-    testimonials[currentTestimonial].classList.remove('active', 'prev');
-    dots[currentTestimonial].classList.remove('active');
-    
-    // Update current index
-    currentTestimonial = n - 1;
-    
-    // Add active class to new testimonial (remove prev class if it exists)
-    testimonials[currentTestimonial].classList.remove('prev');
-    testimonials[currentTestimonial].classList.add('active');
-    dots[currentTestimonial].classList.add('active');
-  }
-}
+// Run on page load
+window.addEventListener('load', initTestimonials);
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

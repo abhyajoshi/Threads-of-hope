@@ -511,19 +511,28 @@ nav a:hover::after {
   }
 
   .testimonials-slider {
-    min-height: 250px; /* Ensure enough height for text */
+    position: relative;       /* ensure stacking works */
+    height: auto !important;  /* container grows with content */
+    min-height: auto;
     padding: 0 10px;
+    overflow: visible !important; /* show all stacked testimonials */
   }
 
   .testimonial {
-    padding: 15px;
-    position: relative; /* Change from absolute if needed */
+    position: relative;        /* stack vertically */
+    opacity: 1 !important;     /* show all */
+    transform: none !important; /* remove translateX */
+    margin-bottom: 20px;       /* spacing between testimonials */
+    width: 100%;
+    max-width: none;
+    padding: 1.5rem;
+    box-sizing: border-box;
   }
 
   .testimonial-text {
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 0 10px;
   }
 
@@ -532,36 +541,37 @@ nav a:hover::after {
   }
 
   .slider-dots {
-    gap: 8px;
-    margin-top: 25px;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
+    display: none; /* hide dots on mobile */
   }
 }
 
-/* Extra small screens */
-.testimonials-slider {
-        min-height: 250px; /* More height for mobile */
-        margin: 0 auto 2rem;
-      }
+/* Extra small screens - adjustments for very small devices */
+@media (max-width: 480px) {
+  .testimonials {
+    padding: 30px 10px;
+  }
 
-      .testimonial {
-        padding: 1.5rem;
-        width: calc(100% - 20px); /* Account for container padding */
-        max-width: none;
-      }
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
 
-      .testimonial-text {
-        font-size: 1rem;
-      }
+  .testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 0 5px;
+  }
 
-      .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
+  .testimonial {
+    padding: 1rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
 
 /* Footer */
 footer {
