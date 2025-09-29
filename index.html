@@ -339,13 +339,111 @@
       });
     });
 
-    // Cart counter function (placeholder)
+    // Cart system - matching the product pages
+    // Update cart counter in navigation
     function updateCartCounter() {
-      // Add your cart counter logic here
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
       const cartCount = document.getElementById('cart-count');
       if (cartCount) {
-        cartCount.textContent = '0'; // Update with actual cart count
+        cartCount.textContent = totalItems;
       }
+    }
+
+    // Add to cart function with notification banner
+    function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImage,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCounter();
+      
+      // Show notification banner
+      showNotification(`${quantity} ${productName} added to cart!`);
+    }
+
+    // Notification banner function
+    function showNotification(message) {
+      // Remove existing notification if any
+      const existingNotification = document.querySelector('.notification-banner');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+      
+      // Create notification banner
+      const notification = document.createElement('div');
+      notification.className = 'notification-banner';
+      notification.innerHTML = `
+        ${message}
+        <button class="close-btn" onclick="hideNotification(this)">&times;</button>
+      `;
+      
+      // Add styles for notification banner
+      notification.style.cssText = `
+        position: fixed;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transition: top 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      `;
+      
+      const closeBtn = notification.querySelector('.close-btn');
+      closeBtn.style.cssText = `
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        margin-left: auto;
+      `;
+      
+      // Add to page
+      document.body.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => {
+        notification.style.top = '20px';
+      }, 100);
+      
+      // Auto-hide after 4 seconds
+      setTimeout(() => {
+        hideNotification(notification);
+      }, 4000);
+    }
+
+    // Hide notification function
+    function hideNotification(element) {
+      const notification = element.classList ? element : element.parentElement;
+      notification.style.top = '-100px';
+      
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
     }
 
     // Initialize everything when page loads
@@ -362,7 +460,11 @@
       initTestimonials();
     });
 
-    // Make functions global for onclick handlers
+    // Make functions global for use in other pages
+    window.addToCart = addToCart;
+    window.showNotification = showNotification;
+    window.hideNotification = hideNotification;
+    window.updateCartCounter = updateCartCounter;
     window.currentSlide = currentSlide;
   </script>
 
