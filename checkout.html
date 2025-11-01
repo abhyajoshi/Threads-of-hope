@@ -702,8 +702,7 @@
             <p>
               • Our team will verify your payment within 2-3 hours<br>
               • You'll receive an order confirmation email once verified<br>
-              • Your order will be processed and shipped within 1-2 business days<br>
-              • You can save your Order ID for tracking purposes
+              • Your order will be processed and shipped within 2 weeks<br>
             </p>
           </div>
           
@@ -740,7 +739,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 Threads of Hope. All rights reserved. Crafted with lots of love</p>
+        <p>&copy; 2025 Threads of Hope. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -748,13 +747,12 @@
   <script>
     // Configuration
     const CONFIG = {
-      // Replace this with your actual Google Form URL
       GOOGLE_FORM_BASE_URL: "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform",
       
       // UPI Configuration
       UPI: {
         merchantName: "Threads of Hope",
-        merchantUPI: "tarajoshirinki@oksbi", // Replace with your actual UPI ID
+        merchantUPI: "tarajoshirinki@oksbi", 
         merchantCode: "MERCHANT"
       }
     };
@@ -771,22 +769,22 @@
       zones: {
         'Local': {
           states: ['Uttarakhand', 'Delhi', 'Haryana', 'Punjab', 'Uttar Pradesh', 'Chandigarh'],
-          baseRate: 30,
+          baseRate: 80,
           perKgRate: 15
         },
         'Metro': {
           states: ['Maharashtra', 'Gujarat', 'Karnataka', 'Tamil Nadu', 'West Bengal', 'Telangana', 'Rajasthan', 'Puducherry'],
-          baseRate: 50,
+          baseRate: 120,
           perKgRate: 25
         },
         'Regional': {
           states: ['Madhya Pradesh', 'Chhattisgarh', 'Odisha', 'Jharkhand', 'Bihar', 'Andhra Pradesh', 'Kerala', 'Goa', 'Dadra and Nagar Haveli and Daman and Diu'],
-          baseRate: 70,
+          baseRate: 100,
           perKgRate: 35
         },
         'Remote': {
           states: ['Arunachal Pradesh', 'Assam', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Sikkim', 'Tripura', 'Himachal Pradesh', 'Jammu and Kashmir', 'Ladakh', 'Andaman and Nicobar Islands', 'Lakshadweep'],
-          baseRate: 100,
+          baseRate: 150,
           perKgRate: 50
         }
       },

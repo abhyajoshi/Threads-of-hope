@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keychain - Sunflower | Threads of Hope</title>
+  <title>Gajra - White | Threads of Hope</title>
   <link rel="stylesheet" href="productdetail.css">
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
   <style>
@@ -22,7 +22,7 @@
     }
 
     .main-image.zoomed img {
-      transform: scale(2);
+      transform: scale(2); /* Zoom level */
     }
   </style>
 </head>
@@ -37,7 +37,7 @@
         </a>
       </div>
       <div class="nav-section">
-        <nav>
+       <nav>
   <ul>
     <li><a href="index.html#home">Home</a></li>
     <li><a href="index.html#categories">Collection</a></li>
@@ -61,7 +61,7 @@
   <section class="breadcrumb">
     <div class="container">
       <nav class="breadcrumb-nav">
-        <a href="index.html">Home</a> / <a href="keychains_productpage.html">Keychains</a> / <span>Keychain - Sunflower</span>
+        <a href="index.html">Home</a> / <a href="gajras_productpage.html">Gajras</a> / <span>Gajra - White</span>
       </nav>
     </div>
   </section>
@@ -74,22 +74,28 @@
         <!-- Product Images -->
         <div class="product-images">
           <div class="thumbnail-images">
-            <div class="thumbnail active" onclick="changeImage('images/sunflower1.jpg', this)">
-              <img src="images/sunflower1.jpg" alt="Sunflower Keychain View 1">
+            <div class="thumbnail active" onclick="changeImage('images/gajra.white1.jpg', this)">
+              <img src="images/gajra.white1.jpg" alt="Gajra White View 1">
             </div>
-            <div class="thumbnail" onclick="changeImage('images/sunflower2.jpg', this)">
-              <img src="images/sunflower2.jpg" alt="Sunflower Keychain View 2">
+            <div class="thumbnail" onclick="changeImage('images/gajra.white2.jpg', this)">
+              <img src="images/gajra.white2.jpg" alt="Gajra White View 2">
+            </div>
+            <div class="thumbnail" onclick="changeImage('images/gajra.white3.jpg', this)">
+              <img src="images/gajra.white3.jpg" alt="Gajra White View 3">
+            </div>
+            <div class="thumbnail" onclick="changeImage('images/gajra.white4.jpg', this)">
+              <img src="images/gajra.white4.jpg" alt="Gajra White View 4">
             </div>
           </div>
           <div class="main-image" id="mainImageContainer">
-            <img id="mainImage" src="images/sunflower1.jpg" alt="Keychain - Sunflower">
+            <img id="mainImage" src="images/gajra.white1.jpg" alt="Gajra - White">
           </div>
         </div>
 
         <!-- Product Info -->
         <div class="product-info">
-          <h1 class="product-title">Keychain - Sunflower</h1>
-          <div class="product-price">₹149</div>
+          <h1 class="product-title">Gajra - White</h1>
+          <div class="product-price">₹249</div>
           
           <!-- Add to Cart Section -->
           <div class="add-to-cart-section">
@@ -102,9 +108,10 @@
               </div>
             </div>
             <button class="add-to-cart-btn"
-              onclick="addToCart('Keychain-sunflower', 'Keychain - Sunflower', 149, 'images/sunflower1.jpg', quantity)">
+              onclick="addToCart('gajra-white', 'Gajra - White', 249, 'images/gajra.white2.jpg', quantity)">
               Add to Cart
             </button>
+
           </div>
 
           <!-- Product Tabs -->
@@ -116,26 +123,26 @@
             </div>
 
             <div class="tab-content active" id="description">
-              <p>Carry a little sunshine wherever you go with our Sunflower Keychain. Handcrafted with care, this cheerful accessory features a bright yellow sunflower with a warm brown center, symbolizing happiness and positivity</p>
-              <p>Lightweight yet durable, it’s perfect for adding a handmade touch to your keys, bags, or gifting to someone special.</p>
+              <p>A delicate handmade gajra crafted from soft white yarn, beautifully mimicking real jasmine flowers.</p>
+              <p>Lightweight, reusable, and perfect for traditional hairstyles, festive looks, or elegant occasions.</p>
             </div>
 
             <div class="tab-content" id="care">
               <p><strong>Care Instructions:</strong></p>
-              <p>• Wipe gently with a damp cloth</p>
-              <p>• Avoid soaking in water</p>
-              <p>• Keep away from sharp objects to prevent snags.</p>
-              <p>• Store in a cool, dry place</p>
+              <p>• Hand wash gently in cold water with mild detergent.</p>
+              <p>• Do not wring or twist; gently squeeze out excess water.</p>
+              <p>• Lay flat on a clean towel and reshape to dry naturally.</p>
+              <p>• Avoid direct sunlight for long periods to preserve colors.</p>
+              <p>• Keep away from sharp objects to prevent snagging.</p>
             </div>
 
-            <div class="tab-content" id="shipping">
+           <div class="tab-content" id="shipping">
             <p><strong>Shipping Information:</strong></p>
             <p>• Made-to-order: Please allow 2–5 business days for crafting before dispatch</p>
             <p>• Free shipping on orders over ₹500</p>
             <p>• Standard delivery: 5–7 business days after dispatch</p>
             <p>• Tracking information provided</p>
             <p>• Secure packaging guaranteed</p>
-          </div>
           </div>
 
         </div>
@@ -175,11 +182,17 @@
     // Image gallery functionality
     function changeImage(src, thumbnail) {
       document.getElementById('mainImage').src = src;
-      document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+      
+      // Remove active class from all thumbnails
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+      });
+      
+      // Add active class to clicked thumbnail
       thumbnail.classList.add('active');
     }
 
-    // Zoom effect
+    // Full zoom hover effect
     const mainImageContainer = document.getElementById("mainImageContainer");
     const mainImage = document.getElementById("mainImage");
 
@@ -199,6 +212,7 @@
       mainImage.style.transformOrigin = "center center";
     });
 
+
     // Quantity functionality
     function increaseQuantity() {
       quantity++;
@@ -212,6 +226,7 @@
       }
     }
 
+
     // Update cart counter in navigation
 function updateCartCounter() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -222,7 +237,7 @@ function updateCartCounter() {
   }
 }
 
-// Add to cart function with notification banner
+// Add to cart function (for product detail pages)
 function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
   let cart = JSON.parse(localStorage.getItem('cart') || '[]');
   
@@ -243,8 +258,9 @@ function addToCart(productId, productName, productPrice, productImage, quantity 
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCounter();
   
-  // Show notification banner
+  // Show notification banner instead of popup
   showNotification(`${quantity} ${productName} added to cart!`);
+
 }
 
 // Notification banner function
@@ -296,12 +312,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Tab functionality
     function openTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Remove active class from all tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected tab content and highlight button
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');
     }
-
   </script>
 </body>
 </html>

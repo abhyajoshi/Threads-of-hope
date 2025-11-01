@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Returns & Refunds | Threads of Hope</title>
-  <link rel="stylesheet" href="customercare.css">
+  <title>Throw Blankets - Threads of Hope</title>
+  <link rel="stylesheet" href="productpage.css">
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Header -->
   <header>
      <div class="container">
     <div class="header-content">
@@ -37,44 +38,40 @@
   </div>
   </header>
 
+  <!-- Breadcrumb -->
   <section class="breadcrumb">
     <div class="container">
       <nav class="breadcrumb-nav">
-        <a href="index.html">Home</a> / <span>Returns & Refunds</span>
+        <a href="index.html">Home</a> / <span>Throw Blankets</span>
       </nav>
     </div>
   </section>
 
-  <section class="main-content">
+  <!-- Product Grid -->
+  <section class="products">
     <div class="container">
-      <h1 class="page-title">Returns & Refunds</h1>
+      <h1 class="page-title">Throw Blankets</h1>
       
-      <div class="content-wrapper">
+      <div class="product-grid">
         
-        <div class="content-section">
-          <h2>Cancellations</h2>
-          <p>We do not accept cancellations once orders are placed. Please make sure your order is correct before completing your purchase.</p>
-        </div>
-
-        <div class="content-section">
-          <h2>Refunds</h2>
-          <p>Once we receive and inspect your return, we will notify you if your refund is approved. Approved refunds will be automatically processed to your account within 10 business days.</p>
-          <p>If more than 15 business days have passed since your refund was approved, please contact us at <a href="mailto:threadsofhopebytj@gmail.com" style="color: #b85450; font-weight: 500;">threadsofhopebytj@gmail.com</a></p>
-          <p><strong>Note:</strong> Shipping costs are non-refundable unless the return is due to our error or a defective product.</p>
-        </div>
-        </div>
-
-        <div class="contact-info">
-          <h3>Still Have Questions?</h3>
-          <p>We are here to help with any return and refund related questions.</p>
-          <p>Email: <a href="mailto:threadsofhopebytj@gmail.com">threadsofhopebytj@gmail.com</a></p>
-          <p><strong>Response time:</strong> Within 24 hours</p>
+        <div class="product-card">
+          <div class="product-image" 
+               data-hover-image 
+               style="--hover-image: url('images/throwblankets.collection.jpg')"
+               onclick="openProduct1('bag-tote')">
+            <img src="images/throwblanket.rose1.jpg" alt="Throw Blanket - Rose">
+          </div>
+          <div class="product-info">
+            <h3 class="product-name" onclick="openProduct1('throw blaket-rose')">Throw Blanket - Rose</h3>
+            <p class="product-price">₹999</p>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-content">
@@ -93,6 +90,7 @@
           <a href="customorders.html">Custom Orders</a>
         </div>
       </div>
+
       <div class="footer-bottom">
         <p>&copy; 2025 Threads of Hope. All rights reserved.</p>
       </div>
@@ -100,7 +98,11 @@
   </footer>
 
   <script>
-// Update cart counter in navigation
+   function openProduct1(productId) {
+     window.location.href = `throwblanket_rose.html`;
+   }
+
+   // Update cart counter in navigation
 function updateCartCounter() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -140,6 +142,6 @@ function addToCart(productId, productName, productPrice, productImage, quantity 
 document.addEventListener('DOMContentLoaded', function() {
   updateCartCounter();
 });
-</script>
+  </script>
 </body>
 </html>
