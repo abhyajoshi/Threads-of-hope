@@ -57,6 +57,19 @@
         <div class="product-card">
           <div class="product-image" 
                data-hover-image 
+               style="--hover-image: url('images/bow2.jpg')"
+               onclick="openProduct1('keychain-Bow')">
+            <img src="images/bow1.jpg" alt="Keychain - Bow">
+          </div>
+          <div class="product-info">
+            <h3 class="product-name" onclick="openProduct3('keychain-Bow')">Keychain - Bow</h3>
+            <p class="product-price">₹149</p>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" 
+               data-hover-image 
                style="--hover-image: url('images/sunflower2.jpg')"
                onclick="openProduct1('keychain-Sunflower')">
             <img src="images/sunflower1.jpg" alt="Keychain - Sunflower">
@@ -117,6 +130,10 @@
 
    function openProduct2(productId) {
      window.location.href = `keychain_daisy.html`;
+   }
+
+   function openProduct3(productId) {
+     window.location.href = `keychain_bow.html`;
    }
 
    // Update cart counter in navigation
