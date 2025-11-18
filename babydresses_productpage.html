@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keychains - Threads of Hope</title>
+  <title>Baby Dresses - Threads of Hope</title>
   <link rel="stylesheet" href="productpage.css">
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 </head>
@@ -42,7 +42,7 @@
   <section class="breadcrumb">
     <div class="container">
       <nav class="breadcrumb-nav">
-        <a href="index.html">Home</a> / <span>Keychains</span>
+        <a href="index.html">Home</a> / <span>Baby Dresses</span>
       </nav>
     </div>
   </section>
@@ -50,46 +50,20 @@
   <!-- Product Grid -->
   <section class="products">
     <div class="container">
-      <h1 class="page-title">Keychains</h1>
+      <h1 class="page-title">Baby Dresses</h1>
       
       <div class="product-grid">
         
         <div class="product-card">
           <div class="product-image" 
                data-hover-image 
-               style="--hover-image: url('images/bow2.jpg')"
-               onclick="openProduct3('keychain-Bow')">
-            <img src="images/bow1.jpg" alt="Keychain - Bow">
+               style="--hover-image: url('images/pinkdress1.jpg')"
+               onclick="openProduct1('baby dress-pink')">
+            <img src="images/pinkdress2.jpg" alt="Baby Dress - Pink">
           </div>
           <div class="product-info">
-            <h3 class="product-name" onclick="openProduct3('keychain-Bow')">Keychain - Bow</h3>
-            <p class="product-price">₹149</p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-image" 
-               data-hover-image 
-               style="--hover-image: url('images/sunflower2.jpg')"
-               onclick="openProduct1('keychain-Sunflower')">
-            <img src="images/sunflower1.jpg" alt="Keychain - Sunflower">
-          </div>
-          <div class="product-info">
-            <h3 class="product-name" onclick="openProduct1('keychain-Sunflower')">Keychain - Sunflower</h3>
-            <p class="product-price">₹149</p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-image" 
-               data-hover-image 
-               style="--hover-image: url('images/daisy2.jpg')"
-               onclick="openProduct2('keychain-daisy')">
-            <img src="images/daisy1.jpg" alt="Keychain - Daisy">
-          </div>
-          <div class="product-info">
-            <h3 class="product-name" onclick="openProduct2('keychain-daisy')">Keychain - Daisy</h3>
-            <p class="product-price">₹149</p>
+            <h3 class="product-name" onclick="openProduct1('baby dress-pink')">Baby Dress - Pink</h3>
+            <p class="product-price">₹499</p>
           </div>
         </div>
 
@@ -124,16 +98,8 @@
   </footer>
 
   <script>
-     function openProduct1(productId) {
-     window.location.href = `keychain_sunflower.html`;
-   }
-
-   function openProduct2(productId) {
-     window.location.href = `keychain_daisy.html`;
-   }
-
-   function openProduct3(productId) {
-     window.location.href = `keychain_bow.html`;
+   function openProduct1(productId) {
+     window.location.href = `babydress_pink.html`;
    }
 
    // Update cart counter in navigation
