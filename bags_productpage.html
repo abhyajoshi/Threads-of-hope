@@ -57,6 +57,19 @@
         <div class="product-card">
           <div class="product-image" 
                data-hover-image 
+               style="--hover-image: url('images/bag.granny2.jpeg')"
+               onclick="openProduct2('bag-grandma')">
+            <img src="images/bag.granny1.jpeg" alt="Bag - Grandma">
+          </div>
+          <div class="product-info">
+            <h3 class="product-name" onclick="openProduct2('bag-tote')">Bag - Granny Square Tote</h3>
+            <p class="product-price">₹1500</p>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" 
+               data-hover-image 
                style="--hover-image: url('images/bag.tote2.jpg')"
                onclick="openProduct1('bag-tote')">
             <img src="images/bag.tote1.jpg" alt="Bag - Tote">
@@ -100,6 +113,10 @@
   <script>
    function openProduct1(productId) {
      window.location.href = `bag_tote.html`;
+   }
+
+   function openProduct2(productId) {
+     window.location.href = `bag_granny.html`;
    }
 
    // Update cart counter in navigation

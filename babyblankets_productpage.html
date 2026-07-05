@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caps - Threads of Hope</title>
+  <title>Baby Blankets - Threads of Hope</title>
   <link rel="stylesheet" href="productpage.css">
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 </head>
@@ -42,7 +42,7 @@
   <section class="breadcrumb">
     <div class="container">
       <nav class="breadcrumb-nav">
-        <a href="index.html">Home</a> / <span>Caps</span>
+        <a href="index.html">Home</a> / <span>Baby Blankets</span>
       </nav>
     </div>
   </section>
@@ -50,33 +50,20 @@
   <!-- Product Grid -->
   <section class="products">
     <div class="container">
-      <h1 class="page-title">Caps</h1>
+      <h1 class="page-title">Baby Blankets</h1>
       
       <div class="product-grid">
         
         <div class="product-card">
           <div class="product-image" 
                data-hover-image 
-               style="--hover-image: url('images/bear2.jpeg')"
-               onclick="openProduct1('cap-bear')">
-            <img src="images/bear1.jpeg" alt="Cap - Bear">
+               style="--hover-image: url('images/babyblanket.collection.jpeg')"
+               onclick="openProduct1('baby blanket-cars')">
+            <img src="images/babyblanket.1.jpeg" alt="Baby Blanket - Cars">
           </div>
           <div class="product-info">
-            <h3 class="product-name" onclick="openProduct1('cap-bear')">Cap - Bear</h3>
-            <p class="product-price">₹499</p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-image" 
-               data-hover-image 
-               style="--hover-image: url('images/multicolour1.jpeg')"
-               onclick="openProduct2('cap-multicolour')">
-            <img src="images/multicolour2.jpeg" alt="Cap - Multi Colour">
-          </div>
-          <div class="product-info">
-            <h3 class="product-name" onclick="openProduct2('cap-multi colour')">Cap - Multi Colour</h3>
-            <p class="product-price">₹449</p>
+            <h3 class="product-name" onclick="openProduct1('baby blaket-cars')">Baby Blanket - Cars</h3>
+            <p class="product-price">₹3000</p>
           </div>
         </div>
 
@@ -105,18 +92,14 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 Threads of Hope. All rights reserved.</p>
+        <p>&copy; 2026 Threads of Hope. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
   <script>
    function openProduct1(productId) {
-     window.location.href = `cap_bear.html`;
-   }
-
-   function openProduct2(productId) {
-     window.location.href = `cap_multicolour.html`;
+     window.location.href = `babyblanket_cars.html`;
    }
 
    // Update cart counter in navigation
@@ -150,7 +133,7 @@ function addToCart(productId, productName, productPrice, productImage, quantity 
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCounter();
   
-  if (confirm(`Added ${quantity} item(s) to cart!\n\nWould you like to view your cart?`)) {
+  if (confirm(`Added ${quantity} item(s) to cart!\n\Would you like to view your cart?`)) {
     window.location.href = 'cart.html';
   }
 }
