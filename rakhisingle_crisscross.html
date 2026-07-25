@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criss Cross Rakhi | Threads of Hope</title>
+  <link rel="stylesheet" href="productdetail.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <style>
+    /* Zoom effect */
+    .main-image {
+      position: relative;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease, transform-origin 0.2s ease;
+    }
+
+    .main-image.zoomed img {
+      transform: scale(2);
+    }
+
+    /* Colour combo selector styles */
+    .color-selector {
+      margin: 25px 0;
+    }
+
+    .color-selector label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      position: relative;
+      border: 3px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+    }
+
+    .color-option:hover {
+      border-color: #b85450;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .color-option.active {
+      border-color: #b85450;
+      box-shadow: 0 2px 8px rgba(255, 105, 180, 0.4);
+    }
+
+    .color-option img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .color-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      padding: 4px 2px;
+    }
+
+    .color-option.active .color-name {
+      background: rgba(184, 84, 80, 1);
+      font-weight: 600;
+    }
+
+    /* Notification banner styles */
+    .notification-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #b85450, #ff6b6b);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 1.1rem;
+      z-index: 1000;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+      box-shadow: 0 2px 10px rgba(184, 84, 80, 0.3);
+    }
+
+    .notification-banner.show {
+      transform: translateY(0);
+    }
+
+    .notification-banner .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 25px;
+      height: 25px;
+    }
+
+    .notification-banner .close-btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+     <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="index.html" class="logo-link">
+          <div class="logo">Threads of Hope</div>
+        </a>
+      </div>
+      <div class="nav-section">
+        <nav>
+  <ul>
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#categories">Collection</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+      </div>
+      <div class="cart-section">
+        <a href="cart.html" class="cart-link">
+          <span class="cart-icon">🛒</span>
+          <span>Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <section class="breadcrumb">
+    <div class="container">
+      <nav class="breadcrumb-nav">
+        <a href="index.html">Home</a> / <a href="rakhis_productpage.html">Rakhis</a> / <span id="breadcrumb-product">Criss Cross Rakhi</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container">
+      <div class="product-detail-content">
+        
+        <!-- Product Images -->
+        <div class="product-images">
+          <div class="main-image" id="mainImageContainer">
+            <img id="mainImage" src="images/rakhi.crisscross.pinkwhite.jpeg" alt="Criss Cross Rakhi">
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <h1 class="product-title" id="productTitle">Criss Cross Rakhi</h1>
+          <div class="product-price" id="productPrice">₹39</div>
+
+          <!-- Colour Combo Selector -->
+          <div class="color-selector">
+            <label>Colour:</label>
+            <div class="color-options" id="colorOptions">
+              <!-- Colour options will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <!-- Add to Cart Section -->
+          <div class="add-to-cart-section">
+            <div class="quantity-selector">
+              <label>Quantity:</label>
+              <div class="quantity-input">
+                <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                <span class="quantity-display" id="quantity">1</span>
+                <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" id="addToCartBtn">
+              Add to Cart
+            </button>
+          </div>
+
+          <!-- Product Tabs -->
+          <div class="product-tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="openTab('description')">Description</button>
+              <button class="tab-btn" onclick="openTab('care')">Care Instructions</button>
+              <button class="tab-btn" onclick="openTab('shipping')">Shipping</button>
+            </div>
+
+            <div class="tab-content active" id="description">
+              <p id="productDescription">Our Criss Cross Rakhi is handcrafted with soft yarn woven in a criss-cross pattern, available in six colour combinations to match every mood of the celebration.</p>
+              <p>A simple, elegant choice made with care, one stitch at a time.</p>
+            </div>
+
+            <div class="tab-content" id="care">
+              <p><strong>Care Instructions:</strong></p>
+              <p>• Hand wash gently in cold water with mild detergent.</p>
+              <p>• Do not wring or twist; gently squeeze out excess water.</p>
+              <p>• Lay flat on a clean towel and reshape to dry naturally.</p>
+              <p>• Avoid direct sunlight for long periods to preserve colors.</p>
+              <p>• Keep away from sharp objects to prevent snagging.</p>
+            </div>
+
+           <div class="tab-content" id="shipping">
+            <p><strong>Shipping Information:</strong></p>
+            <p>• Made-to-order: Please allow 2–5 business days for crafting before dispatch</p>
+            <p>• Free shipping on orders over ₹500</p>
+            <p>• Standard delivery: 5–7 business days after dispatch</p>
+            <p>• Tracking information provided</p>
+            <p>• Secure packaging guaranteed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>📧 threadsofhopebytj@gmail.com</p>
+        </div>
+        <div class="footer-section">
+          <h3>Follow Us</h3>
+          <a href="https://www.instagram.com/threadsofhopebytj/">Instagram</a>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Care</h3>
+          <a href="shippinginfo.html">Shipping Info</a>
+          <a href="returns.html">Returns & Refunds</a>
+          <a href="customorders.html">Custom Orders</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Threads of Hope. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let quantity = 1;
+    let selectedCombo = 'pinkwhite';
+
+    // Colour combo variants — same price, one image each
+    const productVariants = {
+      pinkwhite: {
+        id: 'rakhi-crisscross-pinkwhite',
+        name: 'Criss Cross Rakhi (Pink & White)',
+        price: 39,
+        colorName: 'Pink & White',
+        image: 'images/rakhi.crisscross.pinkwhite.jpeg'
+      },
+      yellowmaroon: {
+        id: 'rakhi-crisscross-yellowmaroon',
+        name: 'Criss Cross Rakhi (Yellow & Maroon)',
+        price: 39,
+        colorName: 'Yellow & Maroon',
+        image: 'images/rakhi.crisscross.yellowmaroon.jpeg'
+      },
+      darkbluelightblue: {
+        id: 'rakhi-crisscross-darkbluelightblue',
+        name: 'Criss Cross Rakhi (Dark Blue & Light Blue)',
+        price: 39,
+        colorName: 'Dark Blue & Light Blue',
+        image: 'images/rakhi.crisscross.darkbluelightblue.jpeg'
+      },
+      olivegreencream: {
+        id: 'rakhi-crisscross-olivegreencream',
+        name: 'Criss Cross Rakhi (Olive Green & Cream)',
+        price: 39,
+        colorName: 'Olive Green & Cream',
+        image: 'images/rakhi.crisscross.olivegreencream.jpeg'
+      },
+      redgreen: {
+        id: 'rakhi-crisscross-redgreen',
+        name: 'Criss Cross Rakhi (Red & Green)',
+        price: 39,
+        colorName: 'Red & Green',
+        image: 'images/rakhi.crisscross.redgreen.jpeg'
+      },
+      pinklightgreen: {
+        id: 'rakhi-crisscross-pinklightgreen',
+        name: 'Criss Cross Rakhi (Pink & Light Green)',
+        price: 39,
+        colorName: 'Pink & Light Green',
+        image: 'images/rakhi.crisscross.pinklightgreen.jpeg'
+      }
+    };
+
+    // Initialize page with colour options
+    function initializeColorOptions() {
+      const colorOptionsContainer = document.getElementById('colorOptions');
+      colorOptionsContainer.innerHTML = '';
+      
+      Object.keys(productVariants).forEach(comboKey => {
+        const variant = productVariants[comboKey];
+        const colorOption = document.createElement('div');
+        colorOption.className = `color-option ${comboKey === selectedCombo ? 'active' : ''}`;
+        colorOption.onclick = () => selectColor(comboKey);
+        colorOption.innerHTML = `
+          <img src="${variant.image}" alt="${variant.colorName}">
+          <span class="color-name">${variant.colorName}</span>
+        `;
+        colorOptionsContainer.appendChild(colorOption);
+      });
+    }
+
+    // Select colour combo and update product details
+    function selectColor(comboKey) {
+      selectedCombo = comboKey;
+      const variant = productVariants[comboKey];
+      
+      // Update active option
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      event.target.closest('.color-option').classList.add('active');
+      
+      // Update product details
+      document.getElementById('productTitle').textContent = variant.name;
+      document.getElementById('productPrice').textContent = `₹${variant.price}`;
+      document.getElementById('breadcrumb-product').textContent = variant.name;
+      document.getElementById('mainImage').src = variant.image;
+      
+      // Reset quantity
+      quantity = 1;
+      document.getElementById('quantity').textContent = quantity;
+      
+      // Update add to cart button
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.image, quantity);
+    }
+
+    // Zoom effect
+    const mainImageContainer = document.getElementById("mainImageContainer");
+    const mainImage = document.getElementById("mainImage");
+
+    mainImageContainer.addEventListener("mouseenter", () => {
+      mainImageContainer.classList.add("zoomed");
+    });
+
+    mainImageContainer.addEventListener("mousemove", (e) => {
+      const rect = mainImageContainer.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      mainImage.style.transformOrigin = `${x}% ${y}%`;
+    });
+
+    mainImageContainer.addEventListener("mouseleave", () => {
+      mainImageContainer.classList.remove("zoomed");
+      mainImage.style.transformOrigin = "center center";
+    });
+
+    // Quantity functionality
+    function increaseQuantity() {
+      quantity++;
+      document.getElementById('quantity').textContent = quantity;
+    }
+
+    function decreaseQuantity() {
+      if (quantity > 1) {
+        quantity--;
+        document.getElementById('quantity').textContent = quantity;
+      }
+    }
+
+    // Update cart counter in navigation
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        cartCount.textContent = totalItems;
+      }
+    }
+
+    // Add to cart function with notification banner
+    function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImage,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCounter();
+      
+      showNotification(`${quantity} ${productName} added to cart!`);
+    }
+
+    // Notification banner function
+    function showNotification(message) {
+      const existingNotification = document.querySelector('.notification-banner');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+      
+      const notification = document.createElement('div');
+      notification.className = 'notification-banner';
+      notification.innerHTML = `
+        ${message}
+        <button class="close-btn" onclick="hideNotification(this)">&times;</button>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 100);
+      
+      setTimeout(() => {
+        hideNotification(notification);
+      }, 4000);
+    }
+
+    // Hide notification function
+    function hideNotification(element) {
+      const notification = element.classList ? element : element.parentElement;
+      notification.classList.remove('show');
+      
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+
+    // Tab functionality
+    function openTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Initialize page when DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeColorOptions();
+      updateCartCounter();
+      
+      // Set up initial add to cart button
+      const variant = productVariants[selectedCombo];
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.image, quantity);
+    });
+  </script>
+</body>
+</html>

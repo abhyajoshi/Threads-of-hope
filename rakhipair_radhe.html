@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radhe Pair Rakhi | Threads of Hope</title>
+  <link rel="stylesheet" href="productdetail.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <style>
+    /* Zoom effect */
+    .main-image {
+      position: relative;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease, transform-origin 0.2s ease;
+    }
+
+    .main-image.zoomed img {
+      transform: scale(2);
+    }
+
+    /* Type selector styles (Pair / Bhaiya / Bhabhi) */
+    .color-selector {
+      margin: 25px 0;
+    }
+
+    .color-selector label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      position: relative;
+      border: 3px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+    }
+
+    .color-option:hover {
+      border-color: #b85450;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .color-option.active {
+      border-color: #b85450;
+      box-shadow: 0 2px 8px rgba(255, 105, 180, 0.4);
+    }
+
+    .color-option img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .color-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      padding: 4px 2px;
+    }
+
+    .color-option.active .color-name {
+      background: rgba(184, 84, 80, 1);
+      font-weight: 600;
+    }
+
+    /* Notification banner styles */
+    .notification-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #b85450, #ff6b6b);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 1.1rem;
+      z-index: 1000;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+      box-shadow: 0 2px 10px rgba(184, 84, 80, 0.3);
+    }
+
+    .notification-banner.show {
+      transform: translateY(0);
+    }
+
+    .notification-banner .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 25px;
+      height: 25px;
+    }
+
+    .notification-banner .close-btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+     <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="index.html" class="logo-link">
+          <div class="logo">Threads of Hope</div>
+        </a>
+      </div>
+      <div class="nav-section">
+        <nav>
+  <ul>
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#categories">Collection</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+      </div>
+      <div class="cart-section">
+        <a href="cart.html" class="cart-link">
+          <span class="cart-icon">🛒</span>
+          <span>Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <section class="breadcrumb">
+    <div class="container">
+      <nav class="breadcrumb-nav">
+        <a href="index.html">Home</a> / <a href="rakhis_productpage.html">Rakhis</a> / <span id="breadcrumb-product">Radhe Pair Rakhi</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container">
+      <div class="product-detail-content">
+        
+        <!-- Product Images -->
+        <div class="product-images">
+          <div class="thumbnail-images" id="thumbnailContainer">
+            <div class="thumbnail active" onclick="changeImage('images/rakhi.radhe1.jpeg', this)">
+              <img src="images/rakhi.radhe1.jpeg" alt="Radhe Pair Rakhi View 1">
+            </div>
+            <div class="thumbnail" onclick="changeImage('images/rakhi.radhe2.jpeg', this)">
+              <img src="images/rakhi.radhe2.jpeg" alt="Radhe Pair Rakhi View 2">
+            </div>
+          </div>
+          <div class="main-image" id="mainImageContainer">
+            <img id="mainImage" src="images/rakhi.radhe1.jpeg" alt="Radhe Pair Rakhi">
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <h1 class="product-title" id="productTitle">Radhe Pair Rakhi</h1>
+          <div class="product-price" id="productPrice">₹229</div>
+          
+          <!-- Type Selector -->
+          <div class="color-selector">
+            <label>Choose:</label>
+            <div class="color-options" id="colorOptions">
+              <!-- Type options will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <!-- Add to Cart Section -->
+          <div class="add-to-cart-section">
+            <div class="quantity-selector">
+              <label>Quantity:</label>
+              <div class="quantity-input">
+                <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                <span class="quantity-display" id="quantity">1</span>
+                <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" id="addToCartBtn">
+              Add to Cart
+            </button>
+          </div>
+
+          <!-- Product Tabs -->
+          <div class="product-tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="openTab('description')">Description</button>
+              <button class="tab-btn" onclick="openTab('care')">Care Instructions</button>
+              <button class="tab-btn" onclick="openTab('shipping')">Shipping</button>
+            </div>
+
+            <div class="tab-content active" id="description">
+              <p id="productDescription">Celebrate Raksha Bandhan with our Radhe Rakhi set, featuring a Radhe-inspired design in rich festive colors. Comes as a matching pair — one for bhaiya and one for bhabhi — so the whole celebration feels complete.</p>
+              <p>Each rakhi is handcrafted with soft yarn and finished with care, making it as thoughtful as it is beautiful.</p>
+            </div>
+
+            <div class="tab-content" id="care">
+              <p><strong>Care Instructions:</strong></p>
+              <p>• Hand wash gently in cold water with mild detergent.</p>
+              <p>• Do not wring or twist; gently squeeze out excess water.</p>
+              <p>• Lay flat on a clean towel and reshape to dry naturally.</p>
+              <p>• Avoid direct sunlight for long periods to preserve colors.</p>
+              <p>• Keep away from sharp objects to prevent snagging.</p>
+            </div>
+
+           <div class="tab-content" id="shipping">
+            <p><strong>Shipping Information:</strong></p>
+            <p>• Made-to-order: Please allow 2–5 business days for crafting before dispatch</p>
+            <p>• Free shipping on orders over ₹500</p>
+            <p>• Standard delivery: 5–7 business days after dispatch</p>
+            <p>• Tracking information provided</p>
+            <p>• Secure packaging guaranteed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>📧 threadsofhopebytj@gmail.com</p>
+        </div>
+        <div class="footer-section">
+          <h3>Follow Us</h3>
+          <a href="https://www.instagram.com/threadsofhopebytj/">Instagram</a>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Care</h3>
+          <a href="shippinginfo.html">Shipping Info</a>
+          <a href="returns.html">Returns & Refunds</a>
+          <a href="customorders.html">Custom Orders</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Threads of Hope. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let quantity = 1;
+    let selectedType = 'pair';
+
+    // Product variants data: Pair (both), Bhaiya (single), Bhabhi (single)
+    const productVariants = {
+      pair: {
+        id: 'rakhi-radhe-pair',
+        name: 'Radhe Pair Rakhi',
+        price: 229,
+        colorName: 'Pair',
+        images: [
+          'images/rakhi.radhe1.jpeg',
+          'images/rakhi.radhe2.jpeg'
+        ],
+        description: 'Celebrate Raksha Bandhan with our Radhe Rakhi set, featuring a Radhe-inspired design in rich festive colors. Comes as a matching pair — one for bhaiya and one for bhabhi — so the whole celebration feels complete.'
+      },
+      bhaiya: {
+        id: 'rakhi-radhe-bhaiya',
+        name: 'Radhe Rakhi (Bhaiya)',
+        price: 79,
+        colorName: 'Bhaiya',
+        images: [
+          'images/rakhi.radhe.bhaiya1.jpeg',
+        ],
+        description: 'The bhaiya rakhi from our Radhe set, featuring a Radhe-inspired design in rich festive colors. Sold on its own for whenever you just need the one.'
+      },
+      bhabhi: {
+        id: 'rakhi-radhe-bhabhi',
+        name: 'Radhe Rakhi (Bhabhi)',
+        price: 149,
+        colorName: 'Bhabhi',
+        images: [
+          'images/rakhi.radhe.bhabhi1.jpeg',
+          'images/rakhi.radhe.bhabhi2.jpeg'
+        ],
+        description: 'The bhabhi rakhi from our Radhe set, featuring a Radhe-inspired design in rich festive colors. Sold on its own for whenever you just need the one.'
+      }
+    };
+
+    // Initialize page with type options
+    function initializeColorOptions() {
+      const colorOptionsContainer = document.getElementById('colorOptions');
+      colorOptionsContainer.innerHTML = '';
+      
+      Object.keys(productVariants).forEach(typeKey => {
+        const variant = productVariants[typeKey];
+        const colorOption = document.createElement('div');
+        colorOption.className = `color-option ${typeKey === selectedType ? 'active' : ''}`;
+        colorOption.onclick = () => selectColor(typeKey);
+        colorOption.innerHTML = `
+          <img src="${variant.images[0]}" alt="${variant.colorName}">
+          <span class="color-name">${variant.colorName}</span>
+        `;
+        colorOptionsContainer.appendChild(colorOption);
+      });
+    }
+
+    // Select type and update product details
+    function selectColor(typeKey) {
+      selectedType = typeKey;
+      const variant = productVariants[typeKey];
+      
+      // Update active option
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      event.target.closest('.color-option').classList.add('active');
+      
+      // Update product details
+      document.getElementById('productTitle').textContent = variant.name;
+      document.getElementById('productPrice').textContent = `₹${variant.price}`;
+      document.getElementById('productDescription').textContent = variant.description;
+      document.getElementById('breadcrumb-product').textContent = variant.name;
+      
+      // Update images
+      updateProductImages(variant.images);
+      
+      // Reset quantity
+      quantity = 1;
+      document.getElementById('quantity').textContent = quantity;
+      
+      // Update add to cart button
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.images[0], quantity);
+    }
+
+    // Update product images
+    function updateProductImages(images) {
+      const thumbnailContainer = document.getElementById('thumbnailContainer');
+      const mainImage = document.getElementById('mainImage');
+      
+      // Clear thumbnails
+      thumbnailContainer.innerHTML = '';
+      
+      // Add new thumbnails
+      images.forEach((imageSrc, index) => {
+        const thumbnail = document.createElement('div');
+        thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+        thumbnail.onclick = function() { changeImage(imageSrc, this); };
+        thumbnail.innerHTML = `<img src="${imageSrc}" alt="Rakhi View ${index + 1}">`;
+        thumbnailContainer.appendChild(thumbnail);
+      });
+      
+      // Set main image to first image
+      mainImage.src = images[0];
+    }
+
+    // Image gallery functionality
+    function changeImage(src, thumbnail) {
+      document.getElementById('mainImage').src = src;
+      document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+      thumbnail.classList.add('active');
+    }
+
+    // Zoom effect
+    const mainImageContainer = document.getElementById("mainImageContainer");
+    const mainImage = document.getElementById("mainImage");
+
+    mainImageContainer.addEventListener("mouseenter", () => {
+      mainImageContainer.classList.add("zoomed");
+    });
+
+    mainImageContainer.addEventListener("mousemove", (e) => {
+      const rect = mainImageContainer.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      mainImage.style.transformOrigin = `${x}% ${y}%`;
+    });
+
+    mainImageContainer.addEventListener("mouseleave", () => {
+      mainImageContainer.classList.remove("zoomed");
+      mainImage.style.transformOrigin = "center center";
+    });
+
+    // Quantity functionality
+    function increaseQuantity() {
+      quantity++;
+      document.getElementById('quantity').textContent = quantity;
+    }
+
+    function decreaseQuantity() {
+      if (quantity > 1) {
+        quantity--;
+        document.getElementById('quantity').textContent = quantity;
+      }
+    }
+
+    // Update cart counter in navigation
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        cartCount.textContent = totalItems;
+      }
+    }
+
+    // Add to cart function with notification banner
+    function addToCart(productId, productName, productPrice, productImage, quantity = 1) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImage,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCounter();
+      
+      // Show notification banner
+      showNotification(`${quantity} ${productName} added to cart!`);
+    }
+
+    // Notification banner function
+    function showNotification(message) {
+      // Remove existing notification if any
+      const existingNotification = document.querySelector('.notification-banner');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+      
+      // Create notification banner
+      const notification = document.createElement('div');
+      notification.className = 'notification-banner';
+      notification.innerHTML = `
+        ${message}
+        <button class="close-btn" onclick="hideNotification(this)">&times;</button>
+      `;
+      
+      // Add to page
+      document.body.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 100);
+      
+      // Auto-hide after 4 seconds
+      setTimeout(() => {
+        hideNotification(notification);
+      }, 4000);
+    }
+
+    // Hide notification function
+    function hideNotification(element) {
+      const notification = element.classList ? element : element.parentElement;
+      notification.classList.remove('show');
+      
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+
+    // Tab functionality
+    function openTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Initialize page when DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeColorOptions();
+      updateCartCounter();
+      
+      // Set up initial add to cart button
+      const variant = productVariants[selectedType];
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.images[0], quantity);
+    });
+  </script>
+</body>
+</html>
