@@ -552,7 +552,7 @@
                     <strong>Payment Process:</strong><br>
                     1. Click "Show QR Code" to generate payment QR<br>
                     2. Scan QR with your UPI app and complete payment<br>
-                    3. Upload payment screenshot through our secure form<br>
+                    3. Click "I Have Paid" and confirm your order details in one quick form<br>
                     4. We'll verify payment and confirm your order within 2-3 hours
                   </p>
                 </div>
@@ -626,16 +626,15 @@
           <p style="margin: 0; font-size: 0.9rem; color: #084298;">
             <strong>Instructions:</strong><br>
             1. Open any UPI app (GPay, Paytm, PhonePe, etc.)<br>
-            2. Scan the QR code above<br>
+            2. Scan the QR code above, using Order ID <strong id="qr-instruction-order-id">TH001</strong> as the payment note<br>
             3. Complete the payment<br>
-            4. Take a screenshot of successful payment<br>
-            5. Click "I Have Paid" below to submit screenshot
+            4. Click "I Have Paid" below to confirm your order
           </p>
         </div>
         
         <div style="display: flex; gap: 10px; margin-top: 20px;">
-          <button onclick="proceedToScreenshotUpload()" style="flex: 1; background: #28a745; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold;">
-            I Have Paid - Upload Screenshot ✓
+          <button onclick="proceedToOrderConfirmation()" style="flex: 1; background: #28a745; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold;">
+            I Have Paid ✓
           </button>
           <button onclick="closeQRModal()" style="flex: 1; background: #6c757d; color: white; border: none; padding: 12px; border-radius: 5px;">
             Cancel
@@ -643,9 +642,9 @@
         </div>
       </div>
       
-      <!-- Step 2: Google Form for Screenshot Upload -->
+      <!-- Step 2: Google Form for Order Confirmation -->
       <div id="google-form-step" class="google-form-step">
-        <h3>Upload Payment Screenshot</h3>
+        <h3>Confirm Your Order</h3>
         
         <div class="order-id-display">
           <h4>Order ID</h4>
@@ -654,30 +653,29 @@
         
         <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
           <p style="margin: 0; font-size: 0.9rem; color: #155724;">
-            <strong>✓ Google Form Opened Successfully!</strong><br>
-            A new tab/window has opened with the payment screenshot upload form. Please complete the form and upload your payment screenshot there.
+            <strong>✓ Confirmation form opened in a new tab!</strong><br>
+            Your Order ID, amount, and delivery details are already filled in. Just review and click Submit — no upload needed.
           </p>
         </div>
         
         <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
           <p style="margin: 0; font-size: 0.9rem; color: #856404;">
-            <strong>What to upload:</strong><br>
-            • Clear screenshot of payment confirmation from your UPI app<br>
-            • Make sure Order ID <strong id="form-order-id-2">TH001</strong> is visible or mentioned<br>
-            • Ensure amount and payment status are clearly visible
+            <strong>A couple of reminders:</strong><br>
+            • Make sure you completed the UPI payment before submitting<br>
+            • Your Order ID <strong id="form-order-id-2">TH001</strong> is tagged on the payment itself, so we can match it to your submission
           </p>
         </div>
         
         <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0c5460;">
           <p style="margin: 0; font-size: 0.9rem; color: #0c5460;">
             <strong>Can't see the form?</strong><br>
-            If the form didn't open automatically, <a href="#" id="manual-form-link" target="_blank" style="color: #0c5460; text-decoration: underline;">click here to open it manually</a>.
+            If it didn't open automatically, <a href="#" id="manual-form-link" target="_blank" style="color: #0c5460; text-decoration: underline;">click here to open it manually</a>.
           </p>
         </div>
         
         <div style="text-align: center; margin-top: 20px;">
           <button onclick="showFinalConfirmation()" style="background: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">
-            ✓ I've Submitted the Screenshot
+            ✓ I've Submitted the Form
           </button>
           <br><br>
           <button onclick="document.getElementById('qr-step').style.display='block'; document.getElementById('google-form-step').style.display='none';" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 0.9rem;">
@@ -752,7 +750,8 @@
       // UPI Configuration
       UPI: {
         merchantName: "Threads of Hope",
-        merchantUPI: "joshiabhya8@oksbi"
+        merchantUPI: "joshiabhya8@oksbi",   
+        merchantCode: ""  
       }
     };
 
@@ -818,19 +817,14 @@
 
     // Generate unique order ID (handles concurrent orders)
     function generateOrderID() {
-      // Using timestamp + random number to ensure uniqueness
       const timestamp = Date.now();
       const randomNum = Math.floor(Math.random() * 1000);
-      
-      // Format: TH + last 6 digits of timestamp + 3-digit random number
       const orderId = `TH${timestamp.toString().slice(-6)}${randomNum.toString().padStart(3, '0')}`;
       
-      // Double-check uniqueness against existing orders
       const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
       const existingOrder = completedOrders.find(order => order.id === orderId);
       
       if (existingOrder) {
-        // Extremely unlikely, but if collision occurs, try again with different random
         return generateOrderID();
       }
       
@@ -839,17 +833,15 @@
 
     // Generate UPI URL for QR code
     function generateUPIURL(amount, orderID) {
-      const upiURL = `upi://pay?pa=${CONFIG.UPI.merchantUPI}&pn=${encodeURIComponent(CONFIG.UPI.merchantName)}&mc=${CONFIG.UPI.merchantCode}&tid=${orderID}&tr=${orderID}&tn=${encodeURIComponent('Order ' + orderID + ' - Threads of Hope')}&am=${amount}&cu=INR`;
+      const mcParam = CONFIG.UPI.merchantCode ? `&mc=${CONFIG.UPI.merchantCode}` : '';
+      const upiURL = `upi://pay?pa=${CONFIG.UPI.merchantUPI}&pn=${encodeURIComponent(CONFIG.UPI.merchantName)}${mcParam}&tid=${orderID}&tr=${orderID}&tn=${encodeURIComponent('Order ' + orderID + ' - Threads of Hope')}&am=${amount}&cu=INR`;
       return upiURL;
     }
 
-    // Generate QR code using QR Server API (Google Charts is deprecated)
+    // Generate QR code using QR Server API
     function generateQRCode(upiURL) {
       const qrSize = 250;
       const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(upiURL)}`;
-      
-      console.log('UPI URL:', upiURL); // Debug log
-      console.log('QR URL:', qrURL); // Debug log
       
       return `
         <img src="${qrURL}" alt="UPI QR Code" style="max-width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;" 
@@ -857,14 +849,12 @@
       `;
     }
 
-    // Generate Google Form URL with pre-filled data including order items
+    // Generate Google Form URL with pre-filled order data (no screenshot required)
     function generateGoogleFormURL(orderData) {
-      // Format order items into a readable string
       const orderItemsText = orderData.items.map(item => {
         return `${item.name} - Qty: ${item.quantity} - Price: ₹${item.price} each (Total: ₹${item.price * item.quantity})`;
       }).join('\n');
       
-      // Calculate order summary
       const orderSummary = `
 ORDER DETAILS:
 ${orderItemsText}
@@ -891,7 +881,7 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
         'entry.83246050': orderData.customer.phone, // Phone field
         'entry.575451564': orderData.totals.total, // Amount Paid field
         'entry.3772964': new Date().toLocaleString(), // Payment Date field
-        'entry.1104337762': orderSummary // Order Details field - REPLACE THIS ENTRY ID WITH YOUR ACTUAL GOOGLE FORM FIELD ID
+        'entry.1104337762': orderSummary // Order Details field
       };
 
       const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdZm3LSlCanchK7PcIFF2hg8PZhap1ibUSuU4bgzoiN0TDd9Q/viewform?usp=header";
@@ -913,10 +903,8 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
       const formData = new FormData(form);
       const totals = calculateCheckoutTotals();
       
-      // Generate sequential order ID
       const orderId = generateOrderID();
       
-      // Create order object
       currentOrder = {
         id: orderId,
         items: checkoutCart,
@@ -947,17 +935,15 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
         date: new Date().toISOString()
       };
       
-      // Generate UPI URL and QR code
       const upiURL = generateUPIURL(totals.total, orderId);
       const qrCodeHTML = generateQRCode(upiURL);
       
-      // Show modal with QR code
       const modal = document.getElementById('payment-modal');
       document.getElementById('qr-code').innerHTML = qrCodeHTML;
       document.getElementById('modal-order-id').textContent = orderId;
+      document.getElementById('qr-instruction-order-id').textContent = orderId;
       document.getElementById('modal-amount').textContent = `₹${totals.total}`;
       
-      // Show QR step
       document.getElementById('qr-step').style.display = 'block';
       document.getElementById('google-form-step').style.display = 'none';
       document.getElementById('confirmation-step').style.display = 'none';
@@ -965,27 +951,22 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
       modal.style.display = 'flex';
     }
 
-    // Proceed to screenshot upload
-    function proceedToScreenshotUpload() {
+    // Proceed to Google Form order confirmation (no screenshot needed)
+    function proceedToOrderConfirmation() {
       if (!currentOrder) return;
       
-      // Update order status
       currentOrder.payment.status = 'payment_claimed';
       currentOrder.payment.customerClaimedAt = new Date().toISOString();
       
-      // Generate pre-filled Google Form URL
       const formURL = generateGoogleFormURL(currentOrder);
       
-      // Open Google Form in new tab
       window.open(formURL, '_blank');
       
-      // Update modal to show confirmation step
       document.getElementById('qr-step').style.display = 'none';
       document.getElementById('google-form-step').style.display = 'block';
       document.getElementById('form-order-id').textContent = currentOrder.id;
       document.getElementById('form-order-id-2').textContent = currentOrder.id;
       
-      // Set up manual form link
       document.getElementById('manual-form-link').href = formURL;
     }
 
@@ -993,28 +974,22 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
     function showFinalConfirmation() {
       if (!currentOrder) return;
       
-      // Update order status
-      currentOrder.payment.status = 'screenshot_submitted';
-      currentOrder.payment.screenshotSubmittedAt = new Date().toISOString();
+      currentOrder.payment.status = 'form_submitted';
+      currentOrder.payment.formSubmittedAt = new Date().toISOString();
       
-      // Save order to localStorage for business tracking
       let completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
       completedOrders.push(currentOrder);
       localStorage.setItem('completedOrders', JSON.stringify(completedOrders));
       
-      // Save current order for customer reference
       localStorage.setItem('lastOrder', JSON.stringify(currentOrder));
       
-      // Clear cart
       localStorage.removeItem('cart');
       localStorage.removeItem('checkoutCart');
       
-      // Show final confirmation
       document.getElementById('google-form-step').style.display = 'none';
       document.getElementById('confirmation-step').style.display = 'block';
       document.getElementById('final-order-id').textContent = currentOrder.id;
       
-      // Send notification to business
       notifyBusinessOfNewOrder(currentOrder);
     }
 
@@ -1035,7 +1010,6 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
 
     // Notify business of new order
     function notifyBusinessOfNewOrder(order) {
-      // You can implement various notification methods here:
       console.log('New order received:', order);
     }
 
@@ -1111,7 +1085,6 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
     function updateOrderReview() {
       const { subtotal, shippingCost, total } = calculateCheckoutTotals();
       
-      // Populate items
       document.getElementById('order-items').innerHTML = checkoutCart.map(item => `
         <div class="review-item">
           <div class="item-info">
@@ -1122,10 +1095,8 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
         </div>
       `).join('');
       
-      // Update subtotal
       document.getElementById('review-subtotal').textContent = `₹${subtotal}`;
       
-      // Update shipping display
       const state = document.getElementById('state').value;
       const pincode = document.getElementById('pincode').value;
       
@@ -1212,11 +1183,9 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-      initStickyHeader(); // Initialize sticky header
-      console.log('Page loaded, cart items:', checkoutCart);
+      initStickyHeader();
       
       if (checkoutCart.length === 0) {
-        console.error('No items found in checkout cart');
         document.getElementById('order-items').innerHTML = '<p style="color: red; text-align: center; padding: 20px;">No items found. Please <a href="cart.html">go back to cart</a>.</p>';
         return;
       }
@@ -1224,7 +1193,6 @@ ORDER DATE: ${new Date(orderData.date).toLocaleString()}
       setTimeout(function() {
         updateOrderReview();
         updateCartCounter();
-        console.log('Order review updated');
       }, 100);
     });
 
