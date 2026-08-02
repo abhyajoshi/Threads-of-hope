@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evil Eye Rakhi | Threads of Hope</title>
+  <title>Evil Eye Pair Rakhi Ver 2 | Threads of Hope</title>
   <link rel="stylesheet" href="productdetail.css">
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
   <style>
@@ -23,6 +23,73 @@
 
     .main-image.zoomed img {
       transform: scale(2);
+    }
+
+    /* Type selector styles (Pair / Bhaiya) */
+    .color-selector {
+      margin: 25px 0;
+    }
+
+    .color-selector label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      position: relative;
+      border: 3px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+    }
+
+    .color-option:hover {
+      border-color: #b85450;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .color-option.active {
+      border-color: #b85450;
+      box-shadow: 0 2px 8px rgba(255, 105, 180, 0.4);
+    }
+
+    .color-option img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .color-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      padding: 4px 2px;
+    }
+
+    .color-option.active .color-name {
+      background: rgba(184, 84, 80, 1);
+      font-weight: 600;
     }
 
     /* Notification banner styles */
@@ -102,7 +169,7 @@
   <section class="breadcrumb">
     <div class="container">
       <nav class="breadcrumb-nav">
-        <a href="index.html">Home</a> / <a href="rakhis_productpage.html">Rakhis</a> / <span id="breadcrumb-product">Evil Eye Rakhi</span>
+        <a href="index.html">Home</a> / <a href="rakhis_productpage.html">Rakhis</a> / <span id="breadcrumb-product">Evil Eye Pair Rakhi Ver 2</span>
       </nav>
     </div>
   </section>
@@ -115,19 +182,27 @@
         <!-- Product Images -->
         <div class="product-images">
           <div class="thumbnail-images" id="thumbnailContainer">
-            <div class="thumbnail active" onclick="changeImage('images/rakhi.evileye.jpeg', this)">
-              <img src="images/rakhi.evileye.jpeg" alt="Evil Eye Rakhi View 1">
+            <div class="thumbnail active" onclick="changeImage('images/rakhi.evileyepair.jpeg', this)">
+              <img src="images/rakhi.evileyepair.jpeg" alt="Evil Eye Pair Rakhi Ver 2 View 1">
             </div>
           </div>
           <div class="main-image" id="mainImageContainer">
-            <img id="mainImage" src="images/rakhi.evileye.jpeg" alt="Evil Eye Rakhi">
+            <img id="mainImage" src="images/rakhi.evileyepair.jpeg" alt="Evil Eye Pair Rakhi Ver 2">
           </div>
         </div>
 
         <!-- Product Info -->
         <div class="product-info">
-          <h1 class="product-title" id="productTitle">Evil Eye Rakhi</h1>
-          <div class="product-price" id="productPrice">₹49</div>
+          <h1 class="product-title" id="productTitle">Evil Eye Pair Rakhi Ver 2</h1>
+          <div class="product-price" id="productPrice">₹149</div>
+          
+          <!-- Type Selector -->
+          <div class="color-selector">
+            <label>Choose:</label>
+            <div class="color-options" id="colorOptions">
+              <!-- Type options will be dynamically inserted here -->
+            </div>
+          </div>
 
           <!-- Add to Cart Section -->
           <div class="add-to-cart-section">
@@ -139,7 +214,7 @@
                 <button class="quantity-btn" onclick="increaseQuantity()">+</button>
               </div>
             </div>
-            <button class="add-to-cart-btn" id="addToCartBtn" onclick="addToCart('rakhi-evileye', 'Evil Eye Rakhi', 49, 'images/rakhi.evileye.jpeg', quantity)">
+            <button class="add-to-cart-btn" id="addToCartBtn">
               Add to Cart
             </button>
           </div>
@@ -153,8 +228,8 @@
             </div>
 
             <div class="tab-content active" id="description">
-              <p id="productDescription">Our Evil Eye Rakhi is handcrafted with soft yarn featuring a protective evil eye design, adding a touch of charm to your Raksha Bandhan celebration.</p>
-              <p>A simple, elegant choice made with care, one stitch at a time.</p>
+              <p id="productDescription">Celebrate Raksha Bandhan with our Evil Eye Pair Rakhi Ver 2 set, featuring a protective evil eye-inspired design. Comes as a matching pair — one for bhaiya and one for bhabhi — so the whole celebration feels complete.</p>
+              <p>Each rakhi is handcrafted with soft yarn and finished with care, making it as thoughtful as it is beautiful.</p>
             </div>
 
             <div class="tab-content" id="care">
@@ -207,14 +282,88 @@
 
   <script>
     let quantity = 1;
+    let selectedType = 'pair';
+
+    // Product variants data: Pair (both), Bhaiya (single)
+    const productVariants = {
+      pair: {
+        id: 'rakhi-evileye-ver2-pair',
+        name: 'Evil Eye Pair Rakhi Ver 2',
+        price: 149,
+        colorName: 'Pair',
+        images: [
+          'images/rakhi.evileyepair.jpeg',
+        ],
+        description: 'Celebrate Raksha Bandhan with our Evil Eye Pair Rakhi Ver 2 set, featuring a protective evil eye-inspired design. Comes as a matching pair — one for bhaiya and one for bhabhi — so the whole celebration feels complete.'
+      },
+      bhaiya: {
+        id: 'rakhi-evileye-ver2-bhaiya',
+        name: 'Evil Eye Rakhi Ver 2 (Bhaiya)',
+        price: 49,
+        colorName: 'Bhaiya',
+        images: [
+          'images/rakhi.evileye.jpeg',
+        ],
+        description: 'The bhaiya rakhi from our Evil Eye Ver 2 set, featuring a protective evil eye-inspired design. Sold on its own for whenever you just need the one.'
+      }
+    };
+
+    // Initialize page with type options
+    function initializeColorOptions() {
+      const colorOptionsContainer = document.getElementById('colorOptions');
+      colorOptionsContainer.innerHTML = '';
+      
+      Object.keys(productVariants).forEach(typeKey => {
+        const variant = productVariants[typeKey];
+        const colorOption = document.createElement('div');
+        colorOption.className = `color-option ${typeKey === selectedType ? 'active' : ''}`;
+        colorOption.onclick = () => selectColor(typeKey);
+        colorOption.innerHTML = `
+          <img src="${variant.images[0]}" alt="${variant.colorName}">
+          <span class="color-name">${variant.colorName}</span>
+        `;
+        colorOptionsContainer.appendChild(colorOption);
+      });
+    }
+
+    // Select type and update product details
+    function selectColor(typeKey) {
+      selectedType = typeKey;
+      const variant = productVariants[typeKey];
+      
+      // Update active option
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      event.target.closest('.color-option').classList.add('active');
+      
+      // Update product details
+      document.getElementById('productTitle').textContent = variant.name;
+      document.getElementById('productPrice').textContent = `₹${variant.price}`;
+      document.getElementById('productDescription').textContent = variant.description;
+      document.getElementById('breadcrumb-product').textContent = variant.name;
+      
+      // Update images
+      updateProductImages(variant.images);
+      
+      // Reset quantity
+      quantity = 1;
+      document.getElementById('quantity').textContent = quantity;
+      
+      // Update add to cart button
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.images[0], quantity);
+    }
 
     // Update product images
     function updateProductImages(images) {
       const thumbnailContainer = document.getElementById('thumbnailContainer');
       const mainImage = document.getElementById('mainImage');
       
+      // Clear thumbnails
       thumbnailContainer.innerHTML = '';
       
+      // Add new thumbnails
       images.forEach((imageSrc, index) => {
         const thumbnail = document.createElement('div');
         thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
@@ -223,6 +372,7 @@
         thumbnailContainer.appendChild(thumbnail);
       });
       
+      // Set main image to first image
       mainImage.src = images[0];
     }
 
@@ -297,16 +447,19 @@
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCounter();
       
+      // Show notification banner
       showNotification(`${quantity} ${productName} added to cart!`);
     }
 
     // Notification banner function
     function showNotification(message) {
+      // Remove existing notification if any
       const existingNotification = document.querySelector('.notification-banner');
       if (existingNotification) {
         existingNotification.remove();
       }
       
+      // Create notification banner
       const notification = document.createElement('div');
       notification.className = 'notification-banner';
       notification.innerHTML = `
@@ -314,12 +467,15 @@
         <button class="close-btn" onclick="hideNotification(this)">&times;</button>
       `;
       
+      // Add to page
       document.body.appendChild(notification);
       
+      // Show notification
       setTimeout(() => {
         notification.classList.add('show');
       }, 100);
       
+      // Auto-hide after 4 seconds
       setTimeout(() => {
         hideNotification(notification);
       }, 4000);
@@ -347,7 +503,13 @@
 
     // Initialize page when DOM loads
     document.addEventListener('DOMContentLoaded', function() {
+      initializeColorOptions();
       updateCartCounter();
+      
+      // Set up initial add to cart button
+      const variant = productVariants[selectedType];
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      addToCartBtn.onclick = () => addToCart(variant.id, variant.name, variant.price, variant.images[0], quantity);
     });
   </script>
 </body>
